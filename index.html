@@ -57,6 +57,7 @@
         body.light .modal-bg { background:rgba(255,255,255,0.7); }
         body.light .acc-hidden { filter: blur(4px); opacity: 0.6; }
         body.light .acc-hidden:hover { filter: blur(0); opacity: 1; }
+        /* ═════════════════════════════════════════ */
 
         * { box-sizing:border-box; transition: background-color 0.3s, color 0.3s; }
         body { font-family:'Kanit',sans-serif; background:var(--bg); color:#e6edf3; margin:0; overflow-x:hidden; }
@@ -146,7 +147,7 @@
 
 <nav class="fixed w-full z-[100] px-4 md:px-6 py-4 glass flex justify-between items-center border-b border-white/5">
     <div class="flex items-center gap-3 cursor-pointer select-none active:scale-95 transition flex-shrink-0" onclick="changeRoom('home')">
-        <img id="nav-logo" src="1000014994.png" class="w-10 h-10 md:w-11 md:h-11 rounded-xl object-cover shadow-lg shadow-red-600/30 pointer-events-none transition-all duration-300" onerror="this.src='https://placehold.co/40x40/ef4444/white?text=W'">
+        <img id="nav-logo" src="1000014994.png" class="w-10 h-10 md:w-11 md:h-11 rounded-xl object-cover shadow-lg shadow-red-600/30 pointer-events-none transition-all duration-300" onerror="this.src='https://placehold.co/100x100/1a1a1a/ef4444?text=WOW'">
         <div class="flex flex-col leading-tight pointer-events-none">
             <span class="text-xl md:text-2xl font-black tracking-tighter uppercase text-white">WOW<span class="text-red-500">SHOP</span></span>
             <span class="text-[8px] md:text-[9px] text-gray-500 font-bold tracking-widest uppercase italic">Premium Store</span>
@@ -503,7 +504,7 @@
 </div>
 
 <div id="auth-modal" class="modal-bg">
-    <div class="glass w-full max-sm p-8 rounded-[2.5rem] text-center relative border border-white/8">
+    <div class="glass w-full max-w-sm p-8 rounded-[2.5rem] text-center relative border border-white/8">
         <button onclick="closeModal('auth-modal')" class="absolute top-5 right-6 text-2xl text-gray-500 hover:text-white transition">&times;</button>
         <div id="login-form">
             <div class="w-14 h-14 logo-box rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-red-900/40"><i class="fas fa-lock text-white text-xl"></i></div>
@@ -600,7 +601,7 @@
 <div id="toast"></div>
 
 <script>
-// 1. FIREBASE CONFIG
+// 1. FIREBASE CONFIG 
 const firebaseConfig = {
   apiKey: "AIzaSyAKCOW7uAJowXhpCUlaW3G",
   authDomain: "wowshop-498d9.firebaseapp.com",
@@ -616,7 +617,7 @@ const db = firebase.database();
 
 function hashStr(s){let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=(h*0x01000193)>>>0;}return h.toString(16);}
 
-// โครงสร้างข้อมูลพื้นฐาน (จะถูกเขียนทับด้วยข้อมูลจาก Firebase)
+// โครงสร้างเริ่มต้น
 function defaultState(){
     return {
         users:[{user:'wow11',pass:hashStr('123123z'),points:999999}],
@@ -647,20 +648,20 @@ let currentPage=1;
 let currentCat='all';
 let currentSearch='';
 
-// เชื่อมต่อดึงข้อมูลแบบ Realtime
-db.ref('wowshop_main_db').on('value', (snap) => {
+// เชื่อมต่อดึงข้อมูลแบบ REALTIME 
+db.ref('wowshop_v4_online').on('value', (snap) => {
     const data = snap.val();
     if(data) {
         state = data;
-        renderMainUI();
+        renderAllUI();
     } else {
-        saveState(); // บันทึกค่าเริ่มต้นหากฐานข้อมูลว่าง
+        saveState(); // บันทึกค่าเริ่มต้นถ้าฐานข้อมูลว่าง
     }
 });
 
-function saveState(){ db.ref('wowshop_main_db').set(state); }
+function saveState(){ db.ref('wowshop_v4_online').set(state); }
 
-function renderMainUI() {
+function renderAllUI(){
     applyTheme();
     renderTicker();
     renderBanners(); 
@@ -672,7 +673,7 @@ function renderMainUI() {
 }
 
 // ══════════════════════════════════════════════════════════════
-// ฟังชันก์ UI & ระบบร้านค้า (ดึงจากโค้ดเดิมของคุณ)
+// ฟังชันก์ UI ทั้งหมด (ดึงจากต้นฉบับห้ามแก้ไข)
 // ══════════════════════════════════════════════════════════════
 
 function applyTheme(){
@@ -790,18 +791,12 @@ function renderAdminPanel(){
     renderAdminProducts(); renderCatAdmin(); renderAdminBanners(); renderTopupManage(); renderAdminOrders(); renderAdminMembers(); renderAdminReports(); renderTickerAdmin();
 }
 
-let currentBanner = 0, bannerInterval;
 function renderBanners() {
     const wrapper = document.getElementById('main-slider'), track = document.getElementById('slider-track'), dots = document.getElementById('slider-dots');
     if(!state.banners || state.banners.length === 0) { wrapper.classList.add('hidden'); return; }
     wrapper.classList.remove('hidden');
     track.innerHTML = state.banners.map(b => `<img src="${b}" class="slider-slide bg-white/5">`).join('');
-    dots.innerHTML = state.banners.map((_, i) => `<div class="slider-dot ${i===currentBanner?'active':''}" onclick="currentBanner=${i};updateSliderPosition()"></div>`).join('');
-    updateSliderPosition();
-}
-function updateSliderPosition() {
-    document.getElementById('slider-track').style.transform = `translateX(-${currentBanner * 100}%)`;
-    document.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === currentBanner));
+    dots.innerHTML = state.banners.map((_, i) => `<div class="slider-dot ${i===0?'active':''}" onclick="goToBanner(${i})"></div>`).join('');
 }
 
 function renderCategoryFilter(){
@@ -814,21 +809,16 @@ function renderProducts(){
     let list = state.products;
     if(currentCat!=='all') list = list.filter(p=>p.category===currentCat);
     if(currentSearch) list = list.filter(p=>p.name.toLowerCase().includes(currentSearch.toLowerCase()));
-    
     const paged = list.slice((currentPage-1)*PAGE_SIZE, currentPage*PAGE_SIZE);
     const el = document.getElementById('product-list');
     document.getElementById('product-empty').classList.toggle('hidden', paged.length > 0);
-    
-    el.innerHTML = paged.map(p => {
-        const sold = p.stock <= 0;
-        return `
+    el.innerHTML = paged.map(p => `
         <div class="product-card glass p-3 rounded-[2rem] relative" onclick="openDetail(${p.id})">
-            ${sold?'<div class="sold-overlay rounded-2xl">🔒 หมดแล้ว</div>':''}
+            ${p.stock<=0?'<div class="sold-overlay rounded-2xl">🔒 หมดแล้ว</div>':''}
             <img src="${p.img}" class="w-full aspect-square object-cover rounded-2xl mb-3">
             <h4 class="text-xs font-bold truncate text-white">${p.name}</h4>
             <div class="flex justify-between items-center px-1"><span class="text-sm font-black text-red-400">${p.price}฿</span></div>
-        </div>`;
-    }).join('');
+        </div>`).join('');
 }
 
 function openDetail(id){
@@ -838,10 +828,8 @@ function openDetail(id){
     document.getElementById('det-price').textContent=p.price.toFixed(2)+'฿';
     document.getElementById('det-stock').textContent=p.stock<=0?'❌ หมด':'✅ เหลือ '+p.stock;
     document.getElementById('det-list').innerHTML=(p.desc||[]).map(d=>`<li>${d}</li>`).join('');
-    
     const qtyCon = document.getElementById('qty-selector-container');
-    qtyCon.innerHTML = p.stock>0?`<input type="number" id="buy-qty" value="1" min="1" max="${p.stock}" class="w-full p-2 rounded-xl">`:'';
-    
+    qtyCon.innerHTML = p.stock>0?`<input type="number" id="buy-qty" value="1" min="1" max="${p.stock}" class="w-full p-2 rounded-xl bg-white/5 border border-white/10 text-white">`:'';
     document.getElementById('final-buy-btn').onclick = () => doPurchase(p);
     openModal('detail-modal');
 }
@@ -851,13 +839,13 @@ async function doPurchase(p){
     const qty = parseInt(document.getElementById('buy-qty')?.value||1);
     const total = p.price * qty;
     if(!u || u.points < total) return;
-    
-    const ok = await showConfirm('ยืนยัน', 'ราคา '+total+'฿');
+    const ok = await showConfirm('ยืนยัน', 'ราคารวม '+total+'฿');
     if(!ok) return;
-
     let bought = [];
-    for(let i=0; i<qty; i++) bought.push(atob(p.accounts.shift()));
-    
+    for(let i=0; i<qty; i++) {
+        const acc = p.accounts.shift();
+        try{ bought.push(decodeURIComponent(escape(atob(acc)))); }catch{ bought.push(atob(acc)); }
+    }
     p.stock -= qty; u.points -= total;
     state.orders.push({buyerUser:u.user, name:p.name, accDecoded:bought.join('\n'), totalPrice:total, buyDate:new Date().toLocaleString('th-TH')});
     state.adminRevenue += total;
@@ -881,12 +869,9 @@ function changeRoom(id){
     document.querySelectorAll('.section-room').forEach(r=>r.classList.remove('active'));
     document.getElementById('room-'+id).classList.add('active');
     if(id==='history') renderHistory();
-    if(id==='admin') renderAdminPanel();
 }
 
 function checkAccess(room){ if(!state.currentUser) openModal('auth-modal'); else changeRoom(room); }
-
-// ฟังก์ชันอื่นๆ เช่น renderAdminProducts, deleteProduct, renderHistory ฯลฯ จะทำงานผ่านการเข้าถึงอาเรย์ใน state และสั่ง saveState() เสมอ
 
 function renderAdminProducts(){
     const el=document.getElementById('admin-product-list');
@@ -898,8 +883,8 @@ function renderAdminProducts(){
 }
 
 function saveProduct(){
-    const name=document.getElementById('pm-name').value, price=parseFloat(document.getElementById('pm-price').value), stock=parseInt(document.getElementById('pm-stock').value), cat=document.getElementById('pm-category').value, img=document.getElementById('pm-img-preview').src, accs=document.getElementById('pm-acc').value.split('\n').filter(Boolean).map(a=>btoa(a));
-    state.products.push({id:state.nextProductId++, name, price, stock, category:cat, img, accounts:accs, desc:document.getElementById('pm-desc').value.split('\n')});
+    const name=document.getElementById('pm-name').value, price=parseFloat(document.getElementById('pm-price').value), stock=parseInt(document.getElementById('pm-stock').value), cat=document.getElementById('pm-category').value, img=document.getElementById('pm-img-preview').src, accs=document.getElementById('pm-acc').value.split('\n').filter(Boolean).map(a=>btoa(unescape(encodeURIComponent(a))));
+    state.products.push({id:Date.now(), name, price, stock, category:cat, img, accounts:accs, desc:document.getElementById('pm-desc').value.split('\n')});
     saveState(); closeModal('product-modal');
 }
 
@@ -908,16 +893,17 @@ function deleteProduct(id){ state.products=state.products.filter(p=>p.id!==id); 
 function renderHistory(){
     const mine=state.orders.filter(o=>o.buyerUser===state.currentUser);
     document.getElementById('history-content').innerHTML=mine.reverse().map(h=>`
-        <div class="glass p-4 rounded-2xl">
+        <div class="glass p-4 rounded-2xl mb-3">
             <h4 class="text-red-400 font-bold">${h.name}</h4>
-            <div class="bg-black/40 p-2 rounded-xl text-xs mt-2">${h.accDecoded}</div>
+            <p class="text-white/40 text-[10px]">${h.buyDate}</p>
+            <div class="bg-black/40 p-2 rounded-xl text-xs mt-2 text-white/80 whitespace-pre-line font-mono">${h.accDecoded}</div>
         </div>`).join('');
 }
 
 function renderTicker(){ document.getElementById('ticker-text').innerHTML=state.tickerLines.map(l=>`<span class="px-10">${l}</span>`).join(''); }
 
 // รันระบบครั้งแรก
-renderMainUI();
+renderAllUI();
 </script>
 </body>
-                                                                                                                                                 </html>
+    </html>
