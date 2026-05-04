@@ -72,175 +72,90 @@
         @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
         .modal-bg { display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.92); backdrop-filter:blur(16px); align-items:center; justify-content:center; padding:20px; }
         .modal-bg.active { display:flex; }
-        .logo-box { background:linear-gradient(135deg,#ef4444,#991b1b); }
-        .category-btn { transition:all .2s; white-space:nowrap; }
+        .category-btn { transition:all .2s; white-space:nowrap; cursor:pointer; }
         .category-btn.active { background:var(--red); color:white; box-shadow:0 0 18px rgba(239,68,68,.45); }
-        .category-btn:not(.active):hover { background:rgba(255,255,255,.06); }
         .product-card { transition:all .3s; cursor:pointer; }
-        .product-card:hover { border-color:rgba(239,68,68,.5); transform:translateY(-4px); }
-        .product-card:hover img { transform:scale(1.06); }
-        .product-card img { transition:transform .5s ease; }
-        
-        /* ฟีเจอร์ Product Zoom ภาพ 🔍 */
-        .zoom-img { transition: transform 0.4s ease; cursor: zoom-in; }
-        .zoom-img:hover { transform: scale(1.1); }
-
-        /* ฟีเจอร์ Skeleton Loading 💀 */
-        .skeleton { animation: pulse 1.5s infinite ease-in-out; background: var(--surface); border-radius: 2rem; pointer-events: none; }
-        .skeleton-img { width: 100%; aspect-ratio: 1/1; background: rgba(255,255,255,0.05); border-radius: 1.5rem; margin-bottom: 12px; }
-        .skeleton-text { height: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-bottom: 8px; width: 80%; }
-        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 0.3; } 100% { opacity: 0.6; } }
-
-        .btn-red { background:linear-gradient(135deg,#ef4444,#b91c1c); transition:all .2s; }
-        .btn-red:hover { background:linear-gradient(135deg,#f87171,#ef4444); box-shadow:0 0 22px rgba(239,68,68,.5); transform:translateY(-1px); }
-        .btn-red:active { transform:scale(.97); }
-        .btn-orange { background:linear-gradient(135deg,#f97316,#c2410c); transition:all .2s; }
-        .btn-orange:hover { filter:brightness(1.15); transform:translateY(-1px); }
-        .btn-green { background:linear-gradient(135deg,#22c55e,#15803d); transition:all .2s; }
-        .btn-green:hover { filter:brightness(1.15); transform:translateY(-1px); }
-        .btn-blue { background:linear-gradient(135deg,#3b82f6,#1d4ed8); transition:all .2s; }
-        .btn-blue:hover { filter:brightness(1.15); transform:translateY(-1px); }
+        .product-card:hover { transform:translateY(-4px); border-color:rgba(239,68,68,0.3); }
+        .btn-red { background:linear-gradient(135deg,#ef4444,#b91c1c); transition:all .2s; cursor:pointer; }
+        .btn-green { background:linear-gradient(135deg,#22c55e,#15803d); transition:all .2s; cursor:pointer; }
+        .btn-orange { background:linear-gradient(135deg,#f97316,#c2410c); transition:all .2s; cursor:pointer; }
 
         #toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); z-index:9999; padding:14px 28px; border-radius:16px; font-size:14px; font-weight:700; opacity:0; transition:all .35s cubic-bezier(.34,1.56,.64,1); pointer-events:none; min-width:240px; text-align:center; }
         #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-        #toast.success { background:linear-gradient(135deg,#16a34a,#14532d); color:white; box-shadow:0 8px 30px rgba(22,163,74,.4); }
-        #toast.error   { background:linear-gradient(135deg,#dc2626,#7f1d1d); color:white; box-shadow:0 8px 30px rgba(220,38,38,.4); }
-        #toast.info    { background:linear-gradient(135deg,#2563eb,#1e3a8a); color:white; box-shadow:0 8px 30px rgba(37,99,235,.4); }
+        #toast.success { background:linear-gradient(135deg,#16a34a,#14532d); color:white; }
+        #toast.error { background:linear-gradient(135deg,#dc2626,#7f1d1d); color:white; }
 
-        input[type=text],input[type=password],input[type=number],input[type=search],textarea,select {
-            background:rgba(255,255,255,.05)!important; border:1px solid rgba(255,255,255,.1)!important;
-            color:white!important; outline:none; transition:border-color .2s,box-shadow .2s;
-        }
-        input:focus,textarea:focus,select:focus { border-color:rgba(239,68,68,.6)!important; box-shadow:0 0 0 3px rgba(239,68,68,.12)!important; }
-        input::placeholder,textarea::placeholder { color:rgba(255,255,255,.25)!important; }
-        select option { background:#1a1a2e; color:white; }
-
-        .ticker-wrap { overflow:hidden; background:rgba(239,68,68,.08); border-bottom:1px solid rgba(239,68,68,.15); }
         .ticker-track { display:inline-flex; animation:ticker 32s linear infinite; white-space:nowrap; }
         @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
         .acc-hidden { filter:blur(5px); user-select:none; cursor:pointer; transition:filter .3s; }
         .acc-hidden:hover { filter:blur(0); }
-
-        .admin-tab { transition:all .2s; }
-        .admin-tab.active { background:rgba(239,68,68,.15); color:#f87171; border-color:rgba(239,68,68,.4); }
-        .admin-tab:not(.active):hover { background:rgba(255,255,255,.05); }
-
-        .badge-hot  { background:linear-gradient(135deg,#ef4444,#b91c1c); }
-        .badge-new  { background:linear-gradient(135deg,#22c55e,#15803d); }
-        .badge-sale { background:linear-gradient(135deg,#f97316,#c2410c); }
-        .badge-sold { background:rgba(100,100,100,.5); }
-
-        .sold-overlay { position:absolute; inset:0; background:rgba(0,0,0,.6); border-radius:inherit; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1rem; color:white; letter-spacing:.1em; z-index:10; }
-
-        @keyframes spin { to{transform:rotate(360deg)} }
-        .spin { animation:spin .8s linear infinite; display:inline-block; }
-        .no-scrollbar::-webkit-scrollbar { display:none; }
-        ::-webkit-scrollbar { width:4px; }
-        ::-webkit-scrollbar-track { background:transparent; }
-        ::-webkit-scrollbar-thumb { background:#333; border-radius:2px; }
-
-        .page-btn { transition:all .2s; }
-        .page-btn.active { background:var(--red); color:white; }
-        .page-btn:not(.active):hover { background:rgba(255,255,255,.08); }
-
-        .report-link-btn { background:none; border:none; cursor:pointer; font-family:'Kanit',sans-serif; }
-
+        .sold-overlay { position:absolute; inset:0; background:rgba(0,0,0,.6); border-radius:inherit; display:flex; align-items:center; justify-content:center; font-weight:900; color:white; z-index:10; }
+        
         .slider-wrapper { overflow:hidden; position:relative; border-radius:1.5rem; }
         .slider-track { display:flex; transition:transform 0.5s ease-in-out; }
         .slider-slide { flex: 0 0 100%; max-width:100%; object-fit:cover; aspect-ratio:21/9; }
-        @media (max-width:768px) { .slider-slide { aspect-ratio:16/9; } }
-        .slider-dots { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:10; }
-        .slider-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.4); cursor:pointer; transition:0.3s; }
-        .slider-dot.active { background:var(--red); width:20px; border-radius:4px; }
+        .no-scrollbar::-webkit-scrollbar { display:none; }
+
+        /* SKELETON LOADING */
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .skeleton { animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; pointer-events:none; }
+        .skeleton-image { background:rgba(255,255,255,0.05); }
+        .skeleton-text { background:rgba(255,255,255,0.05); border-radius:4px; }
+        body.light .skeleton-image, body.light .skeleton-text { background:rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
-<nav class="fixed w-full z-[100] px-4 md:px-6 py-4 glass flex justify-between items-center border-b border-white/5">
-    <div class="flex items-center gap-3 cursor-pointer select-none active:scale-95 transition flex-shrink-0" onclick="changeRoom('home')">
-        <img id="nav-logo" src="1000014994.png" class="w-10 h-10 md:w-11 md:h-11 rounded-xl object-cover shadow-lg shadow-red-600/30 pointer-events-none transition-all duration-300" onerror="this.src='https://placehold.co/100x100/1a1a1a/ef4444?text=WOW'">
-        <div class="flex flex-col leading-tight pointer-events-none">
-            <span class="text-xl md:text-2xl font-black tracking-tighter uppercase text-white">WOW<span class="text-red-500">SHOP</span></span>
-            <span class="text-[8px] md:text-[9px] text-gray-500 font-bold tracking-widest uppercase italic">Premium Store</span>
+<nav class="fixed w-full z-[100] px-4 md:px-6 py-4 glass flex justify-between items-center">
+    <div class="flex items-center gap-3 cursor-pointer" onclick="changeRoom('home')">
+        <img id="nav-logo" src="1000014994.png" class="w-10 h-10 md:w-11 md:h-11 rounded-xl shadow-lg shadow-red-600/30" onerror="this.src='https://placehold.co/100/ef4444/white?text=W'">
+        <div class="flex flex-col leading-tight">
+            <span class="text-xl md:text-2xl font-black text-white uppercase">WOW<span class="text-red-500">SHOP</span></span>
+            <span class="text-[8px] text-gray-500 font-bold tracking-widest uppercase italic">Premium Store</span>
         </div>
     </div>
     
-    <div class="flex items-center gap-2 md:gap-3 flex-shrink min-w-0">
-        <div id="user-points-panel" class="hidden items-center gap-1 md:gap-2 bg-white/5 border border-white/10 px-2 md:px-3 py-2 rounded-xl overflow-hidden flex-shrink-0">
-            <i class="fas fa-coins text-yellow-500 text-xs flex-shrink-0"></i>
-            <span id="points-val" class="font-black text-red-400 text-xs md:text-sm truncate max-w-[50px] sm:max-w-[120px]">0.00</span>
-            <span class="text-xs text-white/30 hidden md:inline flex-shrink-0">฿</span>
+    <div class="flex items-center gap-2">
+        <div id="user-points-panel" class="hidden items-center gap-2 bg-white/5 border border-white/10 px-3 py-2 rounded-xl">
+            <i class="fas fa-coins text-yellow-500 text-xs"></i>
+            <span id="points-val" class="font-black text-red-400 text-sm">0.00</span>
         </div>
-        
-        <button id="nav-auth-btn" onclick="openModal('auth-modal')" class="btn-red px-3 py-2 rounded-xl font-bold text-xs md:text-sm shadow-lg flex-shrink-0 text-white">เข้าสู่ระบบ</button>
-        
-        <div id="user-profile" class="hidden items-center gap-2 bg-white/5 p-1 pr-3 rounded-full border border-white/10 flex-shrink-0">
-            <div id="user-avatar" class="w-8 h-8 bg-red-800/60 rounded-full flex items-center justify-center text-[11px] font-black uppercase text-red-300">U</div>
-            <span id="current-username" class="text-xs font-bold hidden md:inline max-w-[60px] truncate text-white/90">User</span>
-        </div>
-        
-        <button onclick="toggleDarkMode()" id="theme-btn" class="text-lg text-gray-400 p-2 hover:text-white transition rounded-lg hover:bg-white/5 flex-shrink-0 hidden sm:block" title="เปลี่ยนธีม">
-            <i class="fas fa-moon"></i>
-        </button>
-        
-        <button onclick="toggleSidebar()" class="text-xl md:text-2xl text-white bg-white/10 border border-white/20 px-3 py-2 rounded-xl hover:bg-white/20 transition shadow-lg flex items-center justify-center flex-shrink-0">
-            <i class="fas fa-bars"></i>
-        </button>
+        <button id="nav-auth-btn" onclick="openModal('auth-modal')" class="btn-red px-4 py-2 rounded-xl font-bold text-xs shadow-lg flex-shrink-0">เข้าสู่ระบบ</button>
+        <button onclick="toggleSidebar()" class="text-white bg-white/10 px-3 py-2 rounded-xl"><i class="fas fa-bars"></i></button>
     </div>
 </nav>
 
-<div id="sidebar" class="fixed inset-y-0 right-0 w-72 glass z-[200] p-6 shadow-2xl border-l border-white/5">
-    <div class="flex justify-between items-center mb-10">
-        <span class="font-black text-red-500 italic uppercase tracking-widest text-sm">Menu</span>
-        <button onclick="toggleSidebar()" class="text-3xl text-gray-500 hover:text-white transition leading-none">&times;</button>
-    </div>
-    <nav class="space-y-1 font-bold text-sm uppercase">
-        <button onclick="changeRoom('home')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 transition text-white/70 hover:text-white"><i class="fas fa-home text-red-500 w-4"></i> หน้าแรก</button>
-        <button onclick="checkAccess('topup')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 transition text-white/70 hover:text-white"><i class="fas fa-wallet text-orange-500 w-4"></i> เติมเงิน</button>
-        <button onclick="checkAccess('history')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 transition text-white/70 hover:text-white"><i class="fas fa-history text-blue-400 w-4"></i> ประวัติการซื้อ</button>
-        <button onclick="checkAccess('report')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 transition text-white/70 hover:text-white"><i class="fas fa-flag text-yellow-400 w-4"></i> แจ้งปัญหา</button>
-        
-        <button onclick="toggleDarkMode()" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 transition text-gray-400 hover:text-white sm:hidden"><i class="fas fa-moon w-4"></i> สลับโหมดสี</button>
-
+<div id="sidebar" class="fixed inset-y-0 right-0 w-72 glass z-[200] p-6 shadow-2xl">
+    <div class="flex justify-between items-center mb-10"><span class="font-black text-red-500 uppercase tracking-widest text-sm">Menu</span><button onclick="toggleSidebar()" class="text-3xl text-gray-500">&times;</button></div>
+    <nav class="space-y-1 font-bold text-sm">
+        <button onclick="changeRoom('home')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-home text-red-500 w-4"></i> หน้าแรก</button>
+        <button onclick="checkAccess('topup')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-wallet text-orange-500 w-4"></i> เติมเงิน</button>
+        <button onclick="checkAccess('history')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-history text-blue-400 w-4"></i> ประวัติการซื้อ</button>
+        <button onclick="toggleDarkMode()" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-gray-400"><i class="fas fa-moon w-4"></i> สลับโหมดสี</button>
         <div id="admin-panel-link" class="hidden pt-4 mt-4 border-t border-red-500/20">
-            <button onclick="changeRoom('admin')" class="w-full text-left p-4 bg-red-600/10 text-red-500 rounded-2xl flex items-center gap-4 transition font-black border border-red-500/20 hover:bg-red-600/20">
-                <i class="fas fa-user-shield w-4"></i> แผงแอดมิน
-            </button>
+            <button onclick="changeRoom('admin')" class="w-full text-left p-4 bg-red-600/10 text-red-500 rounded-2xl flex items-center gap-4 font-black"><i class="fas fa-user-shield w-4"></i> แผงแอดมิน</button>
         </div>
-
-        <div id="logout-btn-area" class="hidden pt-4 mt-4 border-t border-white/10">
-            <button onclick="doLogout()" class="w-full text-left p-4 text-gray-500 hover:text-red-400 transition rounded-2xl hover:bg-white/5 flex items-center gap-4">
-                <i class="fas fa-sign-out-alt w-4"></i> ออกจากระบบ
-            </button>
-        </div>
+        <button id="logout-btn-area" onclick="doLogout()" class="hidden w-full text-left p-4 text-gray-500 flex items-center gap-4 mt-4 pt-4 border-t border-white/10"><i class="fas fa-sign-out-alt w-4"></i> ออกจากระบบ</button>
     </nav>
 </div>
-<div id="sidebar-overlay" class="hidden fixed inset-0 z-[190]" onclick="toggleSidebar()"></div>
+<div id="sidebar-overlay" class="hidden fixed inset-0 z-[190] bg-black/60" onclick="toggleSidebar()"></div>
 
 <div class="pt-[72px]">
-    <div class="ticker-wrap py-2.5 text-red-400 font-bold text-sm">
+    <div class="ticker-wrap py-2.5 text-red-400 font-bold text-sm bg-red-500/5 border-b border-white/5 overflow-hidden">
         <div class="ticker-track" id="ticker-text"></div>
     </div>
 </div>
 
-<main id="room-home" class="section-room active max-w-7xl mx-auto p-4 md:p-6">
-    <div class="slider-wrapper mb-8 shadow-2xl border border-white/5 bg-white/5 hidden" id="main-slider">
+<main id="room-home" class="section-room active max-w-7xl mx-auto p-4 md:p-6 pb-20">
+    <div class="slider-wrapper mb-8 shadow-2xl bg-white/5 hidden" id="main-slider">
         <div class="slider-track" id="slider-track"></div>
-        <div class="slider-dots" id="slider-dots"></div>
-    </div>
-    
-    <div class="relative mb-5">
-        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-white/30 text-sm"></i>
-        <input type="search" id="search-input" placeholder="ค้นหาสินค้า..." class="w-full pl-10 pr-4 py-3 rounded-2xl text-sm" oninput="handleSearch()">
     </div>
     <div class="flex gap-2 mb-6 overflow-x-auto pb-2 no-scrollbar" id="cat-filter-bar"></div>
     
-    <div id="product-list" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="skeleton p-3"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text" style="width:50%"></div></div>
-        <div class="skeleton p-3"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text" style="width:50%"></div></div>
-        <div class="skeleton p-3 hidden md:block"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text" style="width:50%"></div></div>
-        <div class="skeleton p-3 hidden md:block"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text" style="width:50%"></div></div>
+    <div id="product-list" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div class="skeleton p-3 glass rounded-[2.5rem]"><div class="skeleton-img aspect-square rounded-[2rem] mb-4"></div><div class="skeleton-text h-3 mb-2"></div><div class="skeleton-text h-4 w-1/2"></div></div>
+        <div class="skeleton p-3 glass rounded-[2.5rem]"><div class="skeleton-img aspect-square rounded-[2rem] mb-4"></div><div class="skeleton-text h-3 mb-2"></div><div class="skeleton-text h-4 w-1/2"></div></div>
     </div>
 
     <div id="product-empty" class="hidden glass p-16 rounded-3xl text-center text-gray-500 italic text-sm mt-4">ไม่มีสินค้าในหมวดนี้</div>
@@ -269,12 +184,10 @@
 
         <div id="topup-qr-sec" class="hidden">
             <img id="user-qr-img" src="" class="w-48 h-48 mx-auto rounded-2xl mb-4 object-cover border-2 border-white/10 shadow-lg bg-white" onerror="this.src='https://placehold.co/400x400/ffffff/22c55e?text=QR+CODE'">
-            
             <div class="bg-black/40 p-3 rounded-xl border border-white/5 flex justify-between items-center gap-3 mb-5 max-w-xs mx-auto">
                 <span id="user-pp-text" class="font-mono text-sm text-white/80 flex-1 text-center font-bold"></span>
                 <button onclick="copyText(encodeURIComponent(document.getElementById('user-pp-text').textContent))" class="text-gray-500 hover:text-white transition flex-shrink-0 bg-white/5 w-8 h-8 rounded-lg flex items-center justify-center" title="คัดลอกเลขบัญชี"><i class="fas fa-copy"></i></button>
             </div>
-
             <p class="text-xs text-white/40 mb-5 px-4">สแกนเพื่อโอนเงิน หรือคัดลอกเลขบัญชี จากนั้นโปรดนำสลิปไปแจ้งแอดมินเพื่อทำการเพิ่มพอยท์</p>
             <button onclick="changeRoom('report')" class="btn-green w-full py-4 rounded-2xl font-black uppercase shadow-xl text-sm text-white">
                 <i class="fas fa-flag mr-2"></i>แจ้งโอนเงินที่หน้าปัญหา
@@ -462,6 +375,7 @@
         </div>
     </div>
 </main>
+
 <footer class="mt-20 border-t border-white/5 bg-black/20 py-10 px-6">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
         <div>
@@ -496,8 +410,8 @@
     <div class="glass w-full max-w-3xl p-6 md:p-8 rounded-[2.5rem] relative overflow-y-auto max-h-[90vh] border border-white/8">
         <button onclick="closeModal('detail-modal')" class="absolute top-6 right-7 text-2xl text-gray-500 hover:text-white transition z-10">&times;</button>
         <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-start">
-            <div class="relative overflow-hidden rounded-2xl">
-                <img id="det-img" src="" class="w-full aspect-square object-cover rounded-2xl border border-white/10 shadow-2xl bg-white/5 zoom-img" onerror="this.src='https://placehold.co/400x400/1a1a1a/555?text=?'">
+            <div class="relative">
+                <img id="det-img" src="" class="w-full aspect-square object-cover rounded-2xl border border-white/10 shadow-2xl bg-white/5" onerror="this.src='https://placehold.co/400x400/1a1a1a/555?text=?'">
                 <div id="det-sold-overlay" class="hidden sold-overlay rounded-2xl">🔒 สินค้าหมดแล้ว</div>
             </div>
             <div>
@@ -606,12 +520,22 @@
     </div>
 </div>
 
+<div id="confirm-modal" class="modal-bg">
+    <div class="glass w-full max-w-sm p-8 rounded-[2.5rem] text-center border border-white/8">
+        <div class="w-14 h-14 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-5"><i class="fas fa-bolt text-red-400 text-xl"></i></div>
+        <h3 id="confirm-title" class="text-xl font-black mb-2 uppercase text-white/90"></h3>
+        <p id="confirm-msg" class="text-sm text-white/50 mb-8 whitespace-pre-line leading-relaxed"></p>
+        <div class="flex gap-3">
+            <button onclick="confirmCancel()" class="flex-1 py-3 rounded-2xl font-bold text-sm border border-white/10 hover:bg-white/5 transition text-white/50">ยกเลิก</button>
+            <button onclick="confirmOk()" class="flex-1 btn-red py-3 rounded-2xl font-black text-sm text-white">ยืนยัน</button>
+        </div>
+    </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════════════════════════
-// 1. ระบบ FIREBASE ONLINE (เชื่อมฐานข้อมูลถาวร)
-// ══════════════════════════════════════════════════════════════
+// 1. FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyAKCOW7uAJowXhpCUlaW3G",
   authDomain: "wowshop-498d9.firebaseapp.com",
@@ -621,8 +545,88 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+// 2. STATE (ข้อมูลทั้งหมดดึงออนไลน์ แต่สถานะ Login เก็บที่เครื่อง)
+function defaultState(){
+    return {
+        users:[
+            {user:'wow11',pass:hashStr('123123z'),points:999999}, 
+            {user:'demo',pass:hashStr('demo1234'),points:200}
+        ],
+        categories:[
+            {id:'freefire',label:'Free Fire'},
+            {id:'rov',label:'ROV'},
+            {id:'roblox',label:'Roblox'}
+        ],
+        products:[
+            {id:1,category:'freefire',name:'FF: VIP LV.70 สกินครบ',price:150,stock:2,badge:'hot',img:'https://placehold.co/600x400/161b22/ff4655?text=FreeFire',desc:['เลเวล: 70','สกินปืน: 50+','บัตรเปลี่ยนชื่อ: มี'],accounts:[btoa('ID: ff_vip_01 | PASS: ff1234'),btoa('ID: ff_vip_02 | PASS: ff5678')]},
+            {id:2,category:'rov',name:'ROV: คอน 100 ดาว สกินครบ',price:950,stock:1,badge:'',img:'https://placehold.co/600x400/161b22/0ea5e9?text=ROV',desc:['แรงค์: Conqueror','ฮีโร่: ครบ','สกิน: 120 สกิน'],accounts:[btoa('ID: rov_pro_99 | PASS: rov888')]},
+            {id:3,category:'roblox',name:'RB: Blox Fruit ผลเสือตื่น Max',price:180,stock:1,badge:'new',img:'https://placehold.co/600x400/161b22/ffb01f?text=BloxFruit',desc:['เวล: 2450 (Max)','เงิน: 100M','ผล: เสือตื่น'],accounts:[btoa('ID: roblox_king | PASS: blox111')]}
+        ],
+        banners: [
+            'https://placehold.co/1200x400/1a1a1a/ef4444?text=WOWSHOP+WELCOME',
+            'https://placehold.co/1200x400/1a1a1a/3b82f6?text=AUTO+SYSTEM+24H'
+        ],
+        orders:[],
+        topupHistory:[],
+        reports:[],
+        topupAmount:500,
+        topupLabel:'มูลค่า 500฿ ต่อลิงก์',
+        promptpayQR: '', 
+        promptpayNum: '000-000-0000', 
+        adminRevenue:0,
+        totalTopup:0,
+        nextProductId:5,
+        tickerLines:['🔥 ซื้อ-ขายไอดีเกมอัตโนมัติ 24 ชม. ปลอดภัย รวดเร็ว','⚡ รับรหัสทันทีหลังชำระเงิน','💎 เติมเงินผ่านอั่งเปา True Money'],
+        darkMode:true
+    };
+}
+
+let state = defaultState();
+let isAdminMode = false;
+// ดึงข้อมูลการเข้าสู่ระบบจากเครื่องของลูกค้า
+state.currentUser = localStorage.getItem('wow_current_user') || null;
+
+// 3. FIREBASE SYNC
+db.ref('wowshop_db_v1').on('value', snap => {
+    const data = snap.val();
+    if(data) {
+        // ใช้ข้อมูลจาก Cloud ทับค่า State ทั้งหมด (ยกเว้นสถานะล็อกอินของเครื่อง)
+        const savedUser = state.currentUser;
+        state = data;
+        state.currentUser = savedUser;
+        
+        renderAllUI();
+    } else {
+        // กรณีฐานข้อมูลยังว่างเปล่า ให้เซฟค่าเริ่มต้นขึ้นไป
+        saveState();
+    }
+});
+
+// ฟังก์ชันเซฟข้อมูลขึ้นคลาวด์ 
+function saveState() {
+    // เอา currentUser ออกก่อนส่งขึ้น Cloud (ป้องกันข้อมูลล็อกอินชนกันระหว่างเครื่อง)
+    const cloudState = { ...state, currentUser: null }; 
+    db.ref('wowshop_db_v1').set(cloudState);
+}
+
 // ══════════════════════════════════════════════════════════════
-// 2. ระบบโลโก้เปลี่ยนตามธีม
+// ฟังก์ชัน Render UI ทั้งหมดเมื่อได้ข้อมูลจาก Firebase
+// ══════════════════════════════════════════════════════════════
+function renderAllUI() {
+    applyTheme();
+    renderTicker();
+    renderBanners(); 
+    renderCategoryFilter();
+    renderProducts();
+    updateAuthUI();
+    updateReportBadge();
+    if(isAdminMode && document.getElementById('room-admin').classList.contains('active')) {
+        renderAdminPanel();
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+// 1. ระบบโลโก้เปลี่ยนตามธีม
 // ══════════════════════════════════════════════════════════════
 const LOGO_DARK_MODE  = '1000014994.png'; 
 const LOGO_LIGHT_MODE = '1000014994.png'; 
@@ -689,96 +693,19 @@ function previewAndSaveBanner(input, idx) {
     }
 }
 
+// ══════════════════════════════════════════════════════════════
+// HASH
+// ══════════════════════════════════════════════════════════════
 function hashStr(s){let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=(h*0x01000193)>>>0;}return h.toString(16);}
-
-// ══════════════════════════════════════════════════════════════
-// 3. STATE (ปรับให้ใช้ Firebase แต่แยกสถานะ Login ไว้ที่เครื่อง)
-// ══════════════════════════════════════════════════════════════
-function defaultState(){
-    return {
-        users:[
-            {user:'wow11',pass:hashStr('123123z'),points:999999}, 
-            {user:'demo',pass:hashStr('demo1234'),points:200}
-        ],
-        categories:[
-            {id:'freefire',label:'Free Fire'},
-            {id:'rov',label:'ROV'},
-            {id:'roblox',label:'Roblox'}
-        ],
-        products:[
-            {id:1,category:'freefire',name:'FF: VIP LV.70 สกินครบ',price:150,stock:2,badge:'hot',img:'https://placehold.co/600x400/161b22/ff4655?text=FreeFire',desc:['เลเวล: 70','สกินปืน: 50+','บัตรเปลี่ยนชื่อ: มี'],accounts:[btoa('ID: ff_vip_01 | PASS: ff1234'),btoa('ID: ff_vip_02 | PASS: ff5678')]},
-            {id:2,category:'rov',name:'ROV: คอน 100 ดาว สกินครบ',price:950,stock:1,badge:'',img:'https://placehold.co/600x400/161b22/0ea5e9?text=ROV',desc:['แรงค์: Conqueror','ฮีโร่: ครบ','สกิน: 120 สกิน'],accounts:[btoa('ID: rov_pro_99 | PASS: rov888')]},
-            {id:3,category:'roblox',name:'RB: Blox Fruit ผลเสือตื่น Max',price:180,stock:1,badge:'new',img:'https://placehold.co/600x400/161b22/ffb01f?text=BloxFruit',desc:['เวล: 2450 (Max)','เงิน: 100M','ผล: เสือตื่น'],accounts:[btoa('ID: roblox_king | PASS: blox111')]}
-        ],
-        banners: [
-            'https://placehold.co/1200x400/1a1a1a/ef4444?text=WOWSHOP+WELCOME',
-            'https://placehold.co/1200x400/1a1a1a/3b82f6?text=AUTO+SYSTEM+24H'
-        ],
-        orders:[],
-        topupHistory:[],
-        reports:[],
-        topupAmount:500,
-        topupLabel:'มูลค่า 500฿ ต่อลิงก์',
-        promptpayQR: '', 
-        promptpayNum: '000-000-0000', 
-        adminRevenue:0,
-        totalTopup:0,
-        nextProductId:5,
-        tickerLines:['🔥 ซื้อ-ขายไอดีเกมอัตโนมัติ 24 ชม. ปลอดภัย รวดเร็ว','⚡ รับรหัสทันทีหลังชำระเงิน','💎 เติมเงินผ่านอั่งเปา True Money'],
-        darkMode:true
-    };
-}
-
-let state = defaultState();
-let isAdminMode = false;
-// เก็บล็อกอินไว้ในเครื่องเพื่อแก้บัคปุ่มแอดมินหาย
-state.currentUser = localStorage.getItem('wow_current_user') || null;
-
-// เชื่อมต่อดึงข้อมูลออนไลน์
-db.ref('wowshop_v_premium').on('value', snap => {
-    if(snap.val()) {
-        let data = snap.val();
-        state.users = data.users || state.users;
-        state.products = data.products || [];
-        state.categories = data.categories || state.categories;
-        state.orders = data.orders || [];
-        state.topupHistory = data.topupHistory || [];
-        state.reports = data.reports || [];
-        state.banners = data.banners || state.banners;
-        state.adminRevenue = data.adminRevenue || 0;
-        state.totalTopup = data.totalTopup || 0;
-        state.tickerLines = data.tickerLines || state.tickerLines;
-    }
-    // อัปเดตหน้าจอทั้งหมดเมื่อได้ข้อมูลใหม่
-    renderBanners();
-    renderCategoryFilter();
-    renderProducts();
-    updateAuthUI();
-    renderHistory();
-    if(isAdminMode) renderAdminPanel();
-});
-
-// ส่งข้อมูลไปเซฟที่ Firebase
-function saveState(){
-    db.ref('wowshop_v_premium').set({
-        users: state.users,
-        products: state.products,
-        categories: state.categories,
-        orders: state.orders,
-        topupHistory: state.topupHistory,
-        reports: state.reports,
-        banners: state.banners,
-        adminRevenue: state.adminRevenue,
-        totalTopup: state.totalTopup,
-        tickerLines: state.tickerLines
-    });
-}
 
 const PAGE_SIZE=8;
 let currentPage=1;
 let currentCat='all';
 let currentSearch='';
 
+// ══════════════════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════════════════
 let toastTimer;
 function showToast(msg,type='success'){
     const t=document.getElementById('toast');clearTimeout(toastTimer);
@@ -786,11 +713,17 @@ function showToast(msg,type='success'){
     toastTimer=setTimeout(()=>{t.className=type;},3200);
 }
 
+// ══════════════════════════════════════════════════════════════
+// CONFIRM
+// ══════════════════════════════════════════════════════════════
 let _confirmResolve=null;
 function showConfirm(title,msg){return new Promise(r=>{_confirmResolve=r;document.getElementById('confirm-title').textContent=title;document.getElementById('confirm-msg').textContent=msg;openModal('confirm-modal');});}
 function confirmOk(){closeModal('confirm-modal');_confirmResolve&&_confirmResolve(true);}
 function confirmCancel(){closeModal('confirm-modal');_confirmResolve&&_confirmResolve(false);}
 
+// ══════════════════════════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════════════════════════
 function toggleAuth(isLogin){
     document.getElementById('login-form').classList.toggle('hidden',!isLogin);
     document.getElementById('register-form').classList.toggle('hidden',isLogin);
@@ -818,7 +751,7 @@ function doLogin(){
     
     if(found){
         state.currentUser=u;
-        localStorage.setItem('wow_current_user', u); // เซฟล็อกอินไว้ในเครื่อง
+        localStorage.setItem('wow_current_user', u); // เซฟล็อกอินค้างไว้ที่เครื่อง
         updateAuthUI();
         closeModal('auth-modal');
         showToast(`👋 ยินดีต้อนรับ ${u}!`);
@@ -873,6 +806,10 @@ function updateAuthUI(){
 }
 function updatePointsUI(){const u=getCurrentUser();if(u)document.getElementById('points-val').textContent=u.points.toFixed(2);}
 
+
+// ══════════════════════════════════════════════════════════════
+// ADMIN TABS
+// ══════════════════════════════════════════════════════════════
 function switchAdminTab(tab){
     document.querySelectorAll('.admin-tab-content').forEach(el=>el.classList.add('hidden'));
     document.querySelectorAll('[data-tab]').forEach(btn=>btn.classList.remove('active'));
@@ -888,11 +825,14 @@ function switchAdminTab(tab){
 }
 function renderAdminStats(){
     document.getElementById('stat-revenue').textContent=state.adminRevenue.toFixed(2)+'฿';
-    document.getElementById('stat-orders').textContent=state.orders.length;
-    document.getElementById('stat-products').textContent=state.products.length;
+    document.getElementById('stat-orders').textContent=(state.orders||[]).length;
+    document.getElementById('stat-products').textContent=(state.products||[]).length;
     document.getElementById('stat-topup').textContent=(state.totalTopup||0).toFixed(2)+'฿';
 }
 
+// ══════════════════════════════════════════════════════════════
+// BANNER SLIDER
+// ══════════════════════════════════════════════════════════════
 let currentBanner = 0;
 let bannerInterval;
 
@@ -919,7 +859,7 @@ function renderBanners() {
 function updateSliderPosition() {
     const track = document.getElementById('slider-track');
     const dots = document.querySelectorAll('.slider-dot');
-    if(state.banners.length === 0) return;
+    if(!state.banners || state.banners.length === 0) return;
     track.style.transform = `translateX(-${currentBanner * 100}%)`;
     dots.forEach((d, i) => d.classList.toggle('active', i === currentBanner));
 }
@@ -972,13 +912,16 @@ async function deleteBanner(idx) {
     saveState(); renderAdminBanners(); renderBanners(); showToast('🗑️ ลบแบนเนอร์แล้ว', 'info');
 }
 
+// ══════════════════════════════════════════════════════════════
+// CATEGORIES
+// ══════════════════════════════════════════════════════════════
 function renderCategoryFilter(){
     const bar=document.getElementById('cat-filter-bar');
     const counts={};
-    state.products.forEach(p=>{counts[p.category]=(counts[p.category]||0)+1;});
-    const all=state.products.length;
+    (state.products||[]).forEach(p=>{counts[p.category]=(counts[p.category]||0)+1;});
+    const all=(state.products||[]).length;
     bar.innerHTML=`<button data-cat="all" onclick="filterCategory('all',this)" class="category-btn active px-5 py-2 rounded-xl text-xs font-bold glass text-white">ทั้งหมด (${all})</button>`
-        +state.categories.map(c=>`<button data-cat="${c.id}" onclick="filterCategory('${c.id}',this)" class="category-btn px-5 py-2 rounded-xl text-xs font-bold glass text-white/80">${c.label} (${counts[c.id]||0})</button>`).join('');
+        +(state.categories||[]).map(c=>`<button data-cat="${c.id}" onclick="filterCategory('${c.id}',this)" class="category-btn px-5 py-2 rounded-xl text-xs font-bold glass text-white/80">${c.label} (${counts[c.id]||0})</button>`).join('');
     const activeBtn=bar.querySelector(`[data-cat="${currentCat}"]`)||bar.querySelector('[data-cat="all"]');
     document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));
     activeBtn&&activeBtn.classList.add('active');
@@ -986,8 +929,8 @@ function renderCategoryFilter(){
 function renderCatAdmin(){
     const el=document.getElementById('cat-list');
     const pmCat=document.getElementById('pm-category');
-    pmCat.innerHTML=state.categories.map(c=>`<option value="${c.id}">${c.label}</option>`).join('');
-    if(!state.categories.length){el.innerHTML='<p class="text-xs text-white/30 text-center py-4">ยังไม่มีหมวดหมู่</p>';return;}
+    pmCat.innerHTML=(state.categories||[]).map(c=>`<option value="${c.id}">${c.label}</option>`).join('');
+    if(!state.categories||!state.categories.length){el.innerHTML='<p class="text-xs text-white/30 text-center py-4">ยังไม่มีหมวดหมู่</p>';return;}
     el.innerHTML=state.categories.map(c=>`
         <div class="flex items-center justify-between glass rounded-xl px-4 py-3 text-xs border border-white/5">
             <div><span class="font-bold text-white/80">${c.label}</span><span class="text-white/30 ml-2">#${c.id}</span></div>
@@ -999,13 +942,14 @@ function addCategory(){
     const id=document.getElementById('new-cat-id').value.trim().toLowerCase().replace(/\s+/g,'_');
     const label=document.getElementById('new-cat-label').value.trim();
     if(!id||!label){showToast('❌ กรุณากรอกข้อมูลให้ครบ','error');return;}
+    if(!state.categories) state.categories = [];
     if(state.categories.find(c=>c.id===id)){showToast('❌ รหัสนี้มีอยู่แล้ว','error');return;}
     state.categories.push({id,label});
     document.getElementById('new-cat-id').value=''; document.getElementById('new-cat-label').value='';
     saveState();renderCatAdmin();renderCategoryFilter();showToast(`✅ เพิ่มหมวดหมู่ "${label}" แล้ว`);
 }
 async function deleteCategory(id){
-    const inUse=state.products.some(p=>p.category===id);
+    const inUse=(state.products||[]).some(p=>p.category===id);
     if(inUse){showToast('❌ มีสินค้าอยู่ในหมวดนี้ ลบไม่ได้','error');return;}
     const ok=await showConfirm('ลบหมวดหมู่',`ต้องการลบหมวดหมู่ #${id}?`);
     if(!ok)return;
@@ -1013,10 +957,13 @@ async function deleteCategory(id){
     saveState();renderCatAdmin();renderCategoryFilter();showToast('🗑️ ลบหมวดหมู่แล้ว','info');
 }
 
+// ══════════════════════════════════════════════════════════════
+// ADMIN PRODUCTS
+// ══════════════════════════════════════════════════════════════
 function renderAdminProducts(){
     const el=document.getElementById('admin-product-list');
-    document.getElementById('admin-product-count').textContent=state.products.length;
-    if(!state.products.length){el.innerHTML='<p class="text-xs text-white/30 text-center py-8">ยังไม่มีสินค้า</p>';return;}
+    document.getElementById('admin-product-count').textContent=(state.products||[]).length;
+    if(!state.products||!state.products.length){el.innerHTML='<p class="text-xs text-white/30 text-center py-8">ยังไม่มีสินค้า</p>';return;}
     el.innerHTML=state.products.map(p=>`
         <div class="glass p-4 rounded-2xl flex items-center gap-4 border border-white/5 hover:border-white/10 transition">
             <img src="${p.img||'https://placehold.co/56x56/1a1a1a/555?text=?'}" class="w-14 h-14 object-cover rounded-xl flex-shrink-0 bg-white/5" onerror="this.src='https://placehold.co/56x56/1a1a1a/555?text=?'">
@@ -1040,7 +987,7 @@ function renderAdminProducts(){
 }
 function openAddProduct(){
     const s=document.getElementById('pm-category');
-    s.innerHTML=state.categories.map(c=>`<option value="${c.id}">${c.label}</option>`).join('');
+    s.innerHTML=(state.categories||[]).map(c=>`<option value="${c.id}">${c.label}</option>`).join('');
     document.getElementById('product-modal-title').textContent='เพิ่มสินค้าใหม่';
     ['pm-id','pm-name','pm-price','pm-desc','pm-acc','pm-img-file'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('pm-img-preview').src = '';
@@ -1051,7 +998,7 @@ function openAddProduct(){
 function openEditProduct(id){
     const p=state.products.find(x=>x.id===id);if(!p)return;
     const s=document.getElementById('pm-category');
-    s.innerHTML=state.categories.map(c=>`<option value="${c.id}">${c.label}</option>`).join('');
+    s.innerHTML=(state.categories||[]).map(c=>`<option value="${c.id}">${c.label}</option>`).join('');
     document.getElementById('product-modal-title').textContent='แก้ไขสินค้า';
     document.getElementById('pm-id').value=p.id;
     document.getElementById('pm-name').value=p.name;
@@ -1089,14 +1036,17 @@ function saveProduct(){
     const accounts=accRaw.map(a=>{try{return btoa(unescape(encodeURIComponent(a)));}catch{return btoa(a);}});
     
     const product={
-        id:id?parseInt(id):state.nextProductId++,
+        id:id?parseInt(id):(state.nextProductId||Date.now()),
         name,price,stock,badge,category:cat,
         img, desc,accounts
     };
     
+    if(!state.products) state.products = [];
     if(id){const idx=state.products.findIndex(x=>x.id===parseInt(id));if(idx>=0)state.products[idx]=product;}
     else state.products.push(product);
     
+    if(!id) state.nextProductId = (state.nextProductId||Date.now()) + 1;
+
     saveState();closeModal('product-modal');renderAdminProducts();renderAdminStats();
     renderCategoryFilter();renderProducts();showToast(id?'✅ แก้ไขสินค้าสำเร็จ':'✅ เพิ่มสินค้าสำเร็จ');
 }
@@ -1108,11 +1058,14 @@ async function deleteProduct(id){
     saveState();renderAdminProducts();renderAdminStats();renderCategoryFilter();renderProducts();showToast('🗑️ ลบสินค้าแล้ว','info');
 }
 
+// ══════════════════════════════════════════════════════════════
+// TOPUP ADMIN & SETTINGS
+// ══════════════════════════════════════════════════════════════
 function renderTopupManage(){
-    document.getElementById('topup-amount-input').value=state.topupAmount;
-    document.getElementById('topup-label-input').value=state.topupLabel;
-    document.getElementById('current-topup-amount').textContent=state.topupAmount+'฿';
-    document.getElementById('current-topup-label').textContent=state.topupLabel;
+    document.getElementById('topup-amount-input').value=state.topupAmount||500;
+    document.getElementById('topup-label-input').value=state.topupLabel||'';
+    document.getElementById('current-topup-amount').textContent=(state.topupAmount||500)+'฿';
+    document.getElementById('current-topup-label').textContent=state.topupLabel||'';
     
     document.getElementById('admin-qr-preview').src = state.promptpayQR || ''; 
     document.getElementById('admin-qr-file').value = '';
@@ -1146,7 +1099,7 @@ function saveQRSettings() {
 }
 function renderTopupHistory(){
     const el=document.getElementById('topup-history-list');
-    if(!state.topupHistory.length){el.innerHTML='<p class="text-xs text-white/30 text-center py-6">ยังไม่มีประวัติ</p>';return;}
+    if(!state.topupHistory||!state.topupHistory.length){el.innerHTML='<p class="text-xs text-white/30 text-center py-6">ยังไม่มีประวัติ</p>';return;}
     el.innerHTML=[...state.topupHistory].reverse().map(h=>`
         <div class="flex items-center justify-between bg-white/3 rounded-xl px-4 py-3 text-xs border border-white/5">
             <div><span class="font-bold text-white/70">${h.user}</span><p class="text-white/30 mt-0.5">${h.date}</p></div>
@@ -1160,10 +1113,13 @@ async function clearTopupHistory(){
     state.topupHistory=[];saveState();renderTopupHistory();showToast('🗑️ ล้างประวัติแล้ว','info');
 }
 
+// ══════════════════════════════════════════════════════════════
+// ADMIN ORDERS
+// ══════════════════════════════════════════════════════════════
 function renderAdminOrders(){
     const el=document.getElementById('admin-orders-list');
-    document.getElementById('admin-order-count').textContent=state.orders.length;
-    if(!state.orders.length){el.innerHTML='<p class="text-xs text-white/30 text-center py-8">ยังไม่มีออเดอร์</p>';return;}
+    document.getElementById('admin-order-count').textContent=(state.orders||[]).length;
+    if(!state.orders||!state.orders.length){el.innerHTML='<p class="text-xs text-white/30 text-center py-8">ยังไม่มีออเดอร์</p>';return;}
     el.innerHTML=[...state.orders].reverse().map(h=>`
         <div class="flex items-center justify-between glass rounded-xl px-4 py-3 text-xs border border-white/5">
             <div>
@@ -1179,22 +1135,25 @@ function renderAdminOrders(){
     `).join('');
 }
 function exportOrders(){
-    if(!state.orders.length){showToast('ไม่มีข้อมูล','error');return;}
+    if(!state.orders||!state.orders.length){showToast('ไม่มีข้อมูล','error');return;}
     const csv=['\uFEFFผู้ซื้อ,สินค้า,จำนวน,ราคารวม,วันที่',...state.orders.map(o=>`${o.buyerUser},"${o.name}",${o.qty||1},${o.totalPrice||o.price},${o.buyDate}`)].join('\n');
     const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
     a.download='wowshop-orders.csv';a.click();showToast('📥 Export สำเร็จ');
 }
 
+// ══════════════════════════════════════════════════════════════
+// ADMIN MEMBERS
+// ══════════════════════════════════════════════════════════════
 function renderAdminMembers(){
     const el=document.getElementById('admin-members-list');
-    document.getElementById('admin-member-count').textContent=state.users.length;
-    el.innerHTML=state.users.map(u=>`
+    document.getElementById('admin-member-count').textContent=(state.users||[]).length;
+    el.innerHTML=(state.users||[]).map(u=>`
         <div class="flex items-center justify-between glass rounded-xl px-4 py-3 text-xs border border-white/5">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 bg-red-800/40 rounded-full flex items-center justify-center font-black text-red-300 text-[11px]">${u.user[0].toUpperCase()}</div>
                 <div>
                     <span class="font-bold text-white/80">${u.user}</span>
-                    <p class="text-white/30">ออเดอร์: ${state.orders.filter(o=>o.buyerUser===u.user).length} รายการ</p>
+                    <p class="text-white/30">ออเดอร์: ${(state.orders||[]).filter(o=>o.buyerUser===u.user).length} รายการ</p>
                 </div>
             </div>
             <div class="flex items-center gap-3">
@@ -1233,9 +1192,12 @@ async function deleteMember(username){
     saveState();renderAdminMembers();showToast('🗑️ ลบสมาชิกแล้ว','info');
 }
 
+// ══════════════════════════════════════════════════════════════
+// REPORTS
+// ══════════════════════════════════════════════════════════════
 function renderAdminReports(){
     const el=document.getElementById('admin-reports-list');
-    if(!state.reports.length){el.innerHTML='<p class="text-xs text-white/30 text-center py-8">ไม่มีรายงาน</p>';return;}
+    if(!state.reports||!state.reports.length){el.innerHTML='<p class="text-xs text-white/30 text-center py-8">ไม่มีรายงาน</p>';return;}
     el.innerHTML=[...state.reports].reverse().map((r,i)=>`
         <div class="glass p-5 rounded-2xl border ${r.resolved?'border-green-500/20':'border-yellow-500/20'}">
             <div class="flex items-start justify-between gap-4">
@@ -1262,12 +1224,15 @@ function reportTypeLabel(type){
     return map[type]||type;
 }
 function updateReportBadge(){
-    const pending=state.reports.filter(r=>!r.resolved).length;
+    const pending=(state.reports||[]).filter(r=>!r.resolved).length;
     const badge=document.getElementById('report-badge');
     if(pending>0){badge.textContent=pending;badge.classList.remove('hidden');}
     else badge.classList.add('hidden');
 }
 
+// ══════════════════════════════════════════════════════════════
+// TICKER ADMIN
+// ══════════════════════════════════════════════════════════════
 function renderTickerAdmin(){
     document.getElementById('ticker-input').value=(state.tickerLines||[]).join('\n');
 }
@@ -1282,8 +1247,11 @@ function renderTicker(){
     document.getElementById('ticker-text').innerHTML=doubled.map(l=>`<span class="px-12">${l}</span>`).join('');
 }
 
+// ══════════════════════════════════════════════════════════════
+// PRODUCTS (SHOP)
+// ══════════════════════════════════════════════════════════════
 function getFilteredProducts(){
-    let list=state.products;
+    let list=state.products||[];
     if(currentCat!=='all') list=list.filter(p=>p.category===currentCat);
     if(currentSearch) list=list.filter(p=>p.name.toLowerCase().includes(currentSearch.toLowerCase()));
     return list;
@@ -1346,6 +1314,9 @@ function handleSearch(){
     renderProducts();
 }
 
+// ══════════════════════════════════════════════════════════════
+// DETAIL MODAL & QUANTITY
+// ══════════════════════════════════════════════════════════════
 function changeQty(delta, pId) {
     const p = state.products.find(x => x.id === pId);
     if(!p) return;
@@ -1395,6 +1366,9 @@ function openDetail(id){
     openModal('detail-modal');
 }
 
+// ══════════════════════════════════════════════════════════════
+// BUY
+// ══════════════════════════════════════════════════════════════
 async function doPurchase(p){
     const u=getCurrentUser();
     if(!u){showToast('🔒 กรุณาล็อกอินก่อน','error');closeModal('detail-modal');openModal('auth-modal');return;}
@@ -1421,14 +1395,15 @@ async function doPurchase(p){
     p.stock = Math.max(0, p.stock - qty);
     u.points = parseFloat((u.points - totalPrice).toFixed(2));
     
+    if(!state.orders) state.orders = [];
     const entry={...p, accounts:undefined, accDecoded: finalAccText, buyDate:new Date().toLocaleString('th-TH'), buyerUser:u.user, qty: qty, totalPrice: totalPrice};
     state.orders.push(entry);
-    state.adminRevenue=parseFloat((state.adminRevenue + totalPrice).toFixed(2));
+    state.adminRevenue=parseFloat(((state.adminRevenue||0) + totalPrice).toFixed(2));
     
     saveState();updatePointsUI();
     closeModal('detail-modal');renderProducts();renderHistory();
     
-    // 🎊 เรียกใช้ระบบพลุฉลองตอนซื้อสำเร็จ
+    // 🎊 เอฟเฟกต์พลุฉลองตอนซื้อสำเร็จ!
     confetti({
         particleCount: 150,
         spread: 80,
@@ -1439,9 +1414,12 @@ async function doPurchase(p){
     showToast(`✅ ซื้อ ${p.name} สำเร็จ!`);changeRoom('history');
 }
 
+// ══════════════════════════════════════════════════════════════
+// HISTORY
+// ══════════════════════════════════════════════════════════════
 function renderHistory(){
     const cont=document.getElementById('history-content');
-    const mine=state.orders.filter(h=>h.buyerUser===state.currentUser);
+    const mine=(state.orders||[]).filter(h=>h.buyerUser===state.currentUser);
     if(!mine.length){cont.innerHTML='<div class="glass p-12 rounded-3xl text-center text-gray-500 italic text-sm">ยังไม่มีข้อมูลการซื้อ</div>';return;}
     cont.innerHTML=[...mine].reverse().map((h,i)=>`
         <div class="glass p-5 rounded-3xl border-l-4 border-red-500/60 flex flex-col md:flex-row gap-4 items-start md:items-center">
@@ -1476,9 +1454,12 @@ function openReportFromHistory(orderName){
     },100);
 }
 
+// ══════════════════════════════════════════════════════════════
+// REPORT
+// ══════════════════════════════════════════════════════════════
 function populateReportOrders(){
     const u=getCurrentUser();if(!u)return;
-    const mine=state.orders.filter(o=>o.buyerUser===u.user);
+    const mine=(state.orders||[]).filter(o=>o.buyerUser===u.user);
     const sel=document.getElementById('report-order');
     sel.innerHTML='<option value="">-- เลือกออเดอร์ --</option>'+mine.map(o=>`<option value="${o.name}">${o.name}</option>`).join('');
 }
@@ -1489,6 +1470,7 @@ function submitReport(){
     const order=document.getElementById('report-order').value;
     const detail=document.getElementById('report-detail').value.trim();
     if(!detail){showToast('❌ กรุณาใส่รายละเอียด หรือวางลิงก์รูปสลิป','error');return;}
+    if(!state.reports) state.reports = [];
     state.reports.push({
         id:Date.now(),user:u.user,type,orderName:order,detail,
         date:new Date().toLocaleString('th-TH'),resolved:false
@@ -1499,6 +1481,9 @@ function submitReport(){
     changeRoom('home');
 }
 
+// ══════════════════════════════════════════════════════════════
+// TOPUP
+// ══════════════════════════════════════════════════════════════
 function switchTopupType(type) {
     document.getElementById('topup-gift-sec').classList.toggle('hidden', type !== 'gift');
     document.getElementById('topup-qr-sec').classList.toggle('hidden', type !== 'qr');
@@ -1528,6 +1513,7 @@ function handleTopup(){
         const amt=state.topupAmount;
         u.points=parseFloat((u.points+amt).toFixed(2));
         state.totalTopup=parseFloat(((state.totalTopup||0)+amt).toFixed(2));
+        if(!state.topupHistory) state.topupHistory = [];
         state.topupHistory.push({user:u.user,amount:amt,date:new Date().toLocaleString('th-TH'),url});
         saveState();updatePointsUI();
         document.getElementById('topup-url').value='';
@@ -1536,6 +1522,9 @@ function handleTopup(){
     },1500);
 }
 
+// ══════════════════════════════════════════════════════════════
+// UI HELPERS
+// ══════════════════════════════════════════════════════════════
 function openModal(id){document.getElementById(id).classList.add('active');}
 function closeModal(id){document.getElementById(id).classList.remove('active');}
 function toggleSidebar(){
@@ -1569,22 +1558,6 @@ function checkAccess(room){
 }
 function renderAdminPanel(){renderAdminStats();renderAdminProducts();}
 
-// ══════════════════════════════════════════════════════════════
-// INIT & SKELETON REMOVAL
-// ══════════════════════════════════════════════════════════════
-applyTheme();
-renderTicker();
-renderCategoryFilter();
-updateAuthUI();
-updateReportBadge();
-
-// โชว์ Skeleton ก่อนโหลดเสร็จ (จำลองการดึงข้อมูล 1.5 วิเพื่อให้ดูพรีเมียม)
-setTimeout(() => {
-    // ลบ class .skeleton ออกจาก product-card เพื่อโหลดของจริง
-    renderProducts();
-    renderBanners(); 
-}, 1500);
-
 </script>
 </body>
-        </html>
+</html>
