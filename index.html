@@ -15,51 +15,26 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&display=swap');
         :root {
-            --red:#ef4444; --red-dark:#991b1b; --bg:#0b0e14;
+            --red:#ef4444; --bg:#0b0e14;
             --surface:rgba(255,255,255,0.03); --border:rgba(255,255,255,0.07);
         }
         .dark-mode { --bg:#0b0e14; }
         
-        /* ════ Light Mode Fixes ════ */
+        /* Light Mode Fixes */
         .light-mode { --bg:#f0f2f5; --surface:rgba(0,0,0,0.04); --border:rgba(0,0,0,0.08); }
         body.light { background:#f0f2f5; color:#1a1a2e; }
         body.light .glass { background:rgba(255,255,255,0.9); border-color:rgba(0,0,0,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
         body.light nav { background:rgba(255,255,255,0.95); }
         body.light #sidebar { background:rgba(255,255,255,0.95); }
-        
         body.light .text-white { color:#1a1a2e; }
         body.light .text-white\/90 { color:rgba(0,0,0,0.9); }
-        body.light .text-white\/80 { color:rgba(0,0,0,0.8); }
-        body.light .text-white\/70 { color:rgba(0,0,0,0.7); }
-        body.light .text-white\/60 { color:rgba(0,0,0,0.6); }
-        body.light .text-white\/50 { color:rgba(0,0,0,0.5); }
         body.light .text-white\/40 { color:rgba(0,0,0,0.4); }
         body.light .text-white\/30 { color:rgba(0,0,0,0.3); }
-        body.light .text-white\/20 { color:rgba(0,0,0,0.2); }
-        
         body.light .text-red-400 { color: #dc2626 !important; }
-        body.light .text-yellow-400 { color: #d97706 !important; }
-        body.light .text-yellow-500 { color: #b45309 !important; }
-        body.light .text-green-400 { color: #16a34a !important; }
-        body.light .text-orange-400 { color: #ea580c !important; }
-        body.light .text-blue-400 { color: #2563eb !important; }
-        body.light .text-gray-500 { color: #6b7280 !important; }
-        
-        body.light .btn-red, body.light .btn-red *, body.light .btn-orange, body.light .btn-orange *, 
-        body.light .btn-green, body.light .btn-green *, body.light .btn-blue, body.light .btn-blue *,
-        body.light .badge-hot, body.light .badge-new, body.light .badge-sale, body.light .badge-sold,
-        body.light .logo-box, body.light .logo-box span, body.light .sold-overlay { color: #ffffff !important; }
+        body.light .btn-red, body.light .btn-red *, body.light .badge-hot, body.light .sold-overlay { color: #ffffff !important; }
 
+        input,textarea,select { background:rgba(255,255,255,.05)!important; border:1px solid rgba(255,255,255,.1)!important; color:white!important; outline:none; }
         body.light input,body.light textarea,body.light select { background:rgba(0,0,0,0.05)!important; color:#1a1a2e!important; border-color:rgba(0,0,0,0.15)!important; }
-        body.light input::placeholder, body.light textarea::placeholder { color:rgba(0,0,0,0.4)!important; }
-        body.light .bg-white\/3, body.light .bg-white\/4, body.light .bg-white\/5 { background:rgba(0,0,0,0.04); }
-        body.light .bg-white\/10 { background:rgba(0,0,0,0.08); }
-        body.light .bg-black\/40 { background-color:rgba(0,0,0,0.05) !important; border-color:rgba(0,0,0,0.15) !important; }
-        body.light .border-white\/5, body.light .border-white\/8, body.light .border-white\/10, body.light .border-white\/20 { border-color:rgba(0,0,0,0.1) !important; }
-        body.light .modal-bg { background:rgba(255,255,255,0.7); }
-        body.light .acc-hidden { filter: blur(4px); opacity: 0.6; }
-        body.light .acc-hidden:hover { filter: blur(0); opacity: 1; }
-        /* ═════════════════════════════════════════ */
 
         * { box-sizing:border-box; transition: background-color 0.3s, color 0.3s; }
         body { font-family:'Kanit',sans-serif; background:var(--bg); color:#e6edf3; margin:0; overflow-x:hidden; }
@@ -67,20 +42,34 @@
         .glass { background:var(--surface); backdrop-filter:blur(20px); border:1px solid var(--border); }
         #sidebar { transition:.45s cubic-bezier(.4,0,.2,1); transform:translateX(100%); }
         #sidebar.active { transform:translateX(0); }
-        .section-room { display:none; animation:fadeIn .35s ease-out; }
+        .section-room { display:none; animation:fadeIn .3s ease-out; }
         .section-room.active { display:block; }
         @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+        
         .modal-bg { display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.92); backdrop-filter:blur(16px); align-items:center; justify-content:center; padding:20px; }
         .modal-bg.active { display:flex; }
+        
         .category-btn { transition:all .2s; white-space:nowrap; cursor:pointer; }
         .category-btn.active { background:var(--red); color:white; box-shadow:0 0 18px rgba(239,68,68,.45); }
+        
         .product-card { transition:all .3s; cursor:pointer; }
         .product-card:hover { transform:translateY(-4px); border-color:rgba(239,68,68,0.3); }
+        
+        /* ฟีเจอร์ Product Zoom ภาพ 🔍 */
+        .zoom-img { transition: transform 0.4s ease; cursor: zoom-in; }
+        .zoom-img:hover { transform: scale(1.1); }
+
+        /* ฟีเจอร์ Skeleton Loading 💀 */
+        .skeleton { animation: pulse 1.5s infinite ease-in-out; background: var(--surface); border-radius: 2rem; pointer-events: none; }
+        .skeleton-img { width: 100%; aspect-ratio: 1/1; background: rgba(255,255,255,0.05); border-radius: 1.5rem; margin-bottom: 12px; }
+        .skeleton-text { height: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-bottom: 8px; width: 80%; }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 0.3; } 100% { opacity: 0.6; } }
+
         .btn-red { background:linear-gradient(135deg,#ef4444,#b91c1c); transition:all .2s; cursor:pointer; }
         .btn-green { background:linear-gradient(135deg,#22c55e,#15803d); transition:all .2s; cursor:pointer; }
         .btn-orange { background:linear-gradient(135deg,#f97316,#c2410c); transition:all .2s; cursor:pointer; }
 
-        #toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); z-index:9999; padding:14px 28px; border-radius:16px; font-size:14px; font-weight:700; opacity:0; transition:all .35s cubic-bezier(.34,1.56,.64,1); pointer-events:none; min-width:240px; text-align:center; }
+        #toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); z-index:9999; padding:14px 28px; border-radius:16px; font-size:14px; font-weight:700; opacity:0; transition:all .35s cubic-bezier(.34,1.56,.64,1); pointer-events:none; text-align:center; }
         #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
         #toast.success { background:linear-gradient(135deg,#16a34a,#14532d); color:white; }
         #toast.error { background:linear-gradient(135deg,#dc2626,#7f1d1d); color:white; }
@@ -88,21 +77,15 @@
         .ticker-track { display:inline-flex; animation:ticker 32s linear infinite; white-space:nowrap; }
         @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-        .acc-hidden { filter:blur(5px); user-select:none; cursor:pointer; transition:filter .3s; }
-        .acc-hidden:hover { filter:blur(0); }
         .sold-overlay { position:absolute; inset:0; background:rgba(0,0,0,.6); border-radius:inherit; display:flex; align-items:center; justify-content:center; font-weight:900; color:white; z-index:10; }
         
         .slider-wrapper { overflow:hidden; position:relative; border-radius:1.5rem; }
         .slider-track { display:flex; transition:transform 0.5s ease-in-out; }
         .slider-slide { flex: 0 0 100%; max-width:100%; object-fit:cover; aspect-ratio:21/9; }
         .no-scrollbar::-webkit-scrollbar { display:none; }
-
-        /* SKELETON LOADING */
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        .skeleton { animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; pointer-events:none; }
-        .skeleton-image { background:rgba(255,255,255,0.05); }
-        .skeleton-text { background:rgba(255,255,255,0.05); border-radius:4px; }
-        body.light .skeleton-image, body.light .skeleton-text { background:rgba(0,0,0,0.05); }
+        
+        .admin-tab { transition:all .2s; }
+        .admin-tab.active { background:rgba(239,68,68,.15); color:#f87171; border-color:rgba(239,68,68,.4); }
     </style>
 </head>
 <body>
@@ -121,7 +104,7 @@
             <i class="fas fa-coins text-yellow-500 text-xs"></i>
             <span id="points-val" class="font-black text-red-400 text-sm">0.00</span>
         </div>
-        <button id="nav-auth-btn" onclick="openModal('auth-modal')" class="btn-red px-4 py-2 rounded-xl font-bold text-xs shadow-lg flex-shrink-0">เข้าสู่ระบบ</button>
+        <button id="nav-auth-btn" onclick="openModal('auth-modal')" class="btn-red px-4 py-2 rounded-xl font-bold text-xs shadow-lg flex-shrink-0 text-white">เข้าสู่ระบบ</button>
         <button onclick="toggleSidebar()" class="text-white bg-white/10 px-3 py-2 rounded-xl"><i class="fas fa-bars"></i></button>
     </div>
 </nav>
@@ -132,7 +115,9 @@
         <button onclick="changeRoom('home')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-home text-red-500 w-4"></i> หน้าแรก</button>
         <button onclick="checkAccess('topup')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-wallet text-orange-500 w-4"></i> เติมเงิน</button>
         <button onclick="checkAccess('history')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-history text-blue-400 w-4"></i> ประวัติการซื้อ</button>
+        <button onclick="checkAccess('report')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-flag text-yellow-400 w-4"></i> แจ้งปัญหา</button>
         <button onclick="toggleDarkMode()" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-gray-400"><i class="fas fa-moon w-4"></i> สลับโหมดสี</button>
+        
         <div id="admin-panel-link" class="hidden pt-4 mt-4 border-t border-red-500/20">
             <button onclick="changeRoom('admin')" class="w-full text-left p-4 bg-red-600/10 text-red-500 rounded-2xl flex items-center gap-4 font-black"><i class="fas fa-user-shield w-4"></i> แผงแอดมิน</button>
         </div>
@@ -157,13 +142,11 @@
         <input type="search" id="search-input" placeholder="ค้นหาสินค้า..." class="w-full pl-10 pr-4 py-3 rounded-2xl text-sm" oninput="handleSearch()">
     </div>
     
-    <div class="flex gap-2 mb-6 overflow-x-auto pb-2 no-scrollbar" id="cat-filter-bar">
-        <button class="category-btn glass px-6 py-2.5 rounded-xl text-xs font-bold active">ทั้งหมด</button>
-    </div>
+    <div class="flex gap-2 mb-6 overflow-x-auto pb-2 no-scrollbar" id="cat-filter-bar"></div>
     
     <div id="product-list" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <div class="skeleton p-3 glass rounded-[2.5rem]"><div class="skeleton-img aspect-square rounded-[2rem] mb-4"></div><div class="skeleton-text h-3 mb-2"></div><div class="skeleton-text h-4 w-1/2"></div></div>
-        <div class="skeleton p-3 glass rounded-[2.5rem]"><div class="skeleton-img aspect-square rounded-[2rem] mb-4"></div><div class="skeleton-text h-3 mb-2"></div><div class="skeleton-text h-4 w-1/2"></div></div>
+        <div class="skeleton p-3 glass rounded-[2.5rem]"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text" style="width:50%"></div></div>
+        <div class="skeleton p-3 glass rounded-[2.5rem]"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text" style="width:50%"></div></div>
     </div>
 
     <div id="product-empty" class="hidden glass p-16 rounded-3xl text-center text-gray-500 italic text-sm mt-4">ไม่มีสินค้าในหมวดนี้</div>
@@ -180,146 +163,188 @@
         <div class="glass p-4 rounded-2xl"><p class="text-[10px] text-white/40 uppercase mb-1">รายได้รวม</p><p id="stat-revenue" class="text-xl font-black text-green-400">0฿</p></div>
         <div class="glass p-4 rounded-2xl"><p class="text-[10px] text-white/40 uppercase mb-1">ออเดอร์</p><p id="stat-orders" class="text-xl font-black text-blue-400">0</p></div>
         <div class="glass p-4 rounded-2xl"><p class="text-[10px] text-white/40 uppercase mb-1">สินค้า</p><p id="stat-products" class="text-xl font-black text-yellow-400">0</p></div>
-        <div class="glass p-4 rounded-2xl"><p class="text-[10px] text-white/40 uppercase mb-1">สมาชิก</p><p id="stat-users" class="text-xl font-black text-orange-400">0</p></div>
+        <div class="glass p-4 rounded-2xl"><p class="text-[10px] text-white/40 uppercase mb-1">เงินเติมรวม</p><p id="stat-topup" class="text-xl font-black text-orange-400">0฿</p></div>
     </div>
 
     <div class="flex gap-2 mb-6 overflow-x-auto no-scrollbar pb-2">
-        <button onclick="switchAdminTab('products')" data-tab="products" class="admin-tab active px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10 flex items-center gap-2 whitespace-nowrap"><i class="fas fa-box"></i> สินค้า</button>
-        <button onclick="switchAdminTab('banners')" data-tab="banners" class="admin-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10 flex items-center gap-2 whitespace-nowrap"><i class="fas fa-images"></i> แบนเนอร์</button>
-        <button onclick="switchAdminTab('categories')" data-tab="categories" class="admin-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10 flex items-center gap-2 whitespace-nowrap"><i class="fas fa-tags"></i> หมวดหมู่</button>
-        <button onclick="switchAdminTab('topup-manage')" data-tab="topup-manage" class="admin-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10 flex items-center gap-2 whitespace-nowrap"><i class="fas fa-money-bill-wave"></i> เติมเงิน</button>
+        <button onclick="switchAdminTab('products')" data-tab="products" class="admin-tab active px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10"><i class="fas fa-box"></i> สินค้า</button>
+        <button onclick="switchAdminTab('categories')" data-tab="categories" class="admin-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10"><i class="fas fa-tags"></i> หมวดหมู่</button>
+        <button onclick="switchAdminTab('banners')" data-tab="banners" class="admin-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10"><i class="fas fa-images"></i> แบนเนอร์</button>
+        <button onclick="switchAdminTab('topup')" data-tab="topup" class="admin-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10"><i class="fas fa-money-bill-wave"></i> เติมเงิน</button>
+        <button onclick="switchAdminTab('orders')" data-tab="orders" class="admin-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10"><i class="fas fa-receipt"></i> ออเดอร์</button>
+        <button onclick="switchAdminTab('members')" data-tab="members" class="admin-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10"><i class="fas fa-users"></i> สมาชิก</button>
+        <button onclick="switchAdminTab('reports')" data-tab="reports" class="admin-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10"><i class="fas fa-flag"></i> ปัญหา</button>
+        <button onclick="switchAdminTab('ticker')" data-tab="ticker" class="admin-tab px-4 py-2.5 rounded-xl text-xs font-black uppercase border border-white/10"><i class="fas fa-bullhorn"></i> ประกาศ</button>
     </div>
 
     <div id="admin-tab-products" class="admin-tab-content">
-        <div class="glass p-6 rounded-3xl mb-8 border-red-500/20">
-            <h3 class="font-bold mb-4 text-white uppercase italic">ลงสินค้าใหม่ / แก้ไข</h3>
-            <input type="hidden" id="pm-id">
-            <input type="text" id="pm-name" placeholder="ชื่อสินค้า" class="w-full p-4 rounded-xl mb-3">
-            
-            <div class="grid grid-cols-2 gap-3 mb-3">
-                <div>
-                    <label class="text-[10px] text-white/40 uppercase font-bold ml-2">ราคาขายจริง (฿) *</label>
-                    <input type="number" id="pm-price" placeholder="เช่น 150" class="w-full p-4 rounded-xl mt-1">
-                </div>
-                <div>
-                    <label class="text-[10px] text-yellow-400 uppercase font-bold ml-2"><i class="fas fa-tags"></i> ราคาเต็ม (เอาไว้ทำส่วนลด)</label>
-                    <input type="number" id="pm-old-price" placeholder="ไม่ใส่ก็ได้" class="w-full p-4 rounded-xl mt-1">
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-2 gap-3 mb-3">
-                <select id="pm-category" class="p-4 rounded-xl text-black"></select>
-                <select id="pm-badge" class="p-4 rounded-xl text-black">
-                    <option value="">ไม่มี Badge</option>
-                    <option value="hot">🔥 HOT</option>
-                    <option value="new">✨ NEW</option>
-                </select>
-            </div>
-            
-            <input type="text" id="pm-img" placeholder="ลิงก์รูปภาพ" class="w-full p-4 rounded-xl mb-3">
-            <textarea id="pm-acc" placeholder="ไอดีที่ขาย (1 บรรทัด = 1 ไอดี)" class="w-full p-4 rounded-xl mb-4 h-24 font-mono"></textarea>
-            
-            <div class="flex gap-2">
-                <button onclick="clearProductForm()" class="px-6 py-4 rounded-xl font-bold text-white/50 border border-white/10 hover:bg-white/5">ล้างข้อมูล</button>
-                <button onclick="saveProduct()" class="flex-1 btn-green py-4 rounded-xl font-black uppercase shadow-lg text-white">บันทึกข้อมูลสินค้า</button>
-            </div>
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="font-black uppercase text-white/60 text-xs tracking-widest">รายการสินค้า</h3>
+            <button onclick="openAddProduct()" class="btn-green px-4 py-2 rounded-xl font-black text-xs text-white"><i class="fas fa-plus"></i> เพิ่มสินค้า</button>
         </div>
         <div id="admin-product-list" class="space-y-3"></div>
     </div>
 
-    <div id="admin-tab-banners" class="admin-tab-content hidden">
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="font-black uppercase text-white/60 text-xs tracking-widest">จัดการแบนเนอร์หน้าแรก (สูงสุด 5 รูป)</h3>
-            <button onclick="addEmptyBanner()" class="btn-green px-4 py-2.5 rounded-xl font-black text-xs flex items-center gap-2 text-white"><i class="fas fa-plus"></i> เพิ่มช่องรูป</button>
+    <div id="admin-tab-categories" class="admin-tab-content hidden">
+        <div class="glass p-6 rounded-2xl border border-white/8 mb-6">
+            <h3 class="font-black text-white/60 uppercase text-xs mb-4">เพิ่มหมวดหมู่</h3>
+            <input type="text" id="new-cat-id" placeholder="รหัส (ภาษาอังกฤษ เช่น pubg)" class="w-full p-3 rounded-xl text-sm mb-3">
+            <input type="text" id="new-cat-label" placeholder="ชื่อที่แสดง (เช่น PUBG Mobile)" class="w-full p-3 rounded-xl text-sm mb-3">
+            <button onclick="addCategory()" class="btn-green w-full py-3 rounded-xl font-black text-xs text-white">เพิ่มหมวดหมู่</button>
         </div>
+        <div id="cat-list" class="space-y-2"></div>
+    </div>
+
+    <div id="admin-tab-banners" class="admin-tab-content hidden">
+        <button onclick="addEmptyBanner()" class="btn-green px-4 py-2 rounded-xl font-black text-xs text-white mb-4"><i class="fas fa-plus"></i> เพิ่มช่องรูป</button>
         <div id="admin-banner-list" class="space-y-3"></div>
     </div>
 
-    <div id="admin-tab-categories" class="admin-tab-content hidden">
-        <div class="grid md:grid-cols-2 gap-6">
-            <div class="glass p-6 rounded-2xl border border-white/8">
-                <h3 class="font-black text-white/60 uppercase text-xs tracking-widest mb-5">เพิ่มหมวดหมู่ใหม่</h3>
-                <div class="space-y-3">
-                    <input type="text" id="new-cat-id" placeholder="รหัส (ภาษาอังกฤษ เช่น pubg)" class="w-full p-3 rounded-xl text-sm">
-                    <input type="text" id="new-cat-label" placeholder="ชื่อที่แสดง (เช่น PUBG Mobile)" class="w-full p-3 rounded-xl text-sm">
-                    <button onclick="addCategory()" class="btn-green w-full py-3 rounded-xl font-black text-xs uppercase text-white"><i class="fas fa-plus mr-2"></i>เพิ่มหมวดหมู่</button>
-                </div>
-            </div>
-            <div class="glass p-6 rounded-2xl border border-white/8">
-                <h3 class="font-black text-white/60 uppercase text-xs tracking-widest mb-5">หมวดหมู่ทั้งหมด</h3>
-                <div id="cat-list" class="space-y-2 max-h-80 overflow-y-auto pr-2"></div>
-            </div>
+    <div id="admin-tab-topup" class="admin-tab-content hidden">
+        <div class="glass p-6 rounded-2xl mb-6">
+            <h3 class="font-black text-orange-400 text-sm mb-4">ตั้งค่าอั่งเปา</h3>
+            <input type="number" id="topup-amount-input" placeholder="มูลค่าต่อลิงก์ (฿)" class="w-full p-3 rounded-xl text-sm mb-3">
+            <button onclick="saveTopupSettings()" class="btn-orange w-full py-3 rounded-xl font-black text-xs text-white">บันทึกอั่งเปา</button>
+        </div>
+        <div class="glass p-6 rounded-2xl">
+            <h3 class="font-black text-green-400 text-sm mb-4">ตั้งค่า QR Code โอนเงิน</h3>
+            <input type="text" id="admin-qr-input" placeholder="วางลิงก์รูป QR Code" class="w-full p-3 rounded-xl text-sm mb-3">
+            <input type="text" id="admin-pp-num" placeholder="เลขบัญชี / เบอร์พร้อมเพย์" class="w-full p-3 rounded-xl text-sm mb-3">
+            <button onclick="saveQRSettings()" class="btn-green w-full py-3 rounded-xl font-black text-xs text-white">บันทึกบัญชีโอนเงิน</button>
         </div>
     </div>
 
-    <div id="admin-tab-topup-manage" class="admin-tab-content hidden">
-        <div class="grid md:grid-cols-2 gap-6">
-            <div class="glass p-6 rounded-2xl border border-white/8">
-                <h3 class="font-black text-orange-400 uppercase text-xs tracking-widest mb-5"><i class="fas fa-coins mr-2"></i>ตั้งค่ามูลค่าอั่งเปา</h3>
-                <div class="space-y-4">
-                    <div><label class="text-xs text-white/40 mb-1.5 block">มูลค่าต่อลิงก์ (฿)</label><input type="number" id="topup-amount-input" class="w-full p-3 rounded-xl text-sm" min="1"></div>
-                    <div><label class="text-xs text-white/40 mb-1.5 block">ข้อความแสดงให้ลูกค้า</label><input type="text" id="topup-label-input" class="w-full p-3 rounded-xl text-sm"></div>
-                    <button onclick="saveTopupSettings()" class="btn-orange w-full py-3 rounded-xl font-black text-xs uppercase text-white"><i class="fas fa-save mr-2"></i>บันทึก</button>
-                </div>
-            </div>
-            <div class="glass p-6 rounded-2xl border border-white/8">
-                <div class="flex justify-between items-center mb-5">
-                    <h3 class="font-black text-orange-400 uppercase text-xs tracking-widest"><i class="fas fa-list mr-2"></i>ประวัติการเติมเงิน</h3>
-                </div>
-                <div id="topup-history-list" class="space-y-2 max-h-[500px] overflow-y-auto pr-2"></div>
-            </div>
-        </div>
+    <div id="admin-tab-orders" class="admin-tab-content hidden">
+        <div id="admin-orders-list" class="space-y-2"></div>
+    </div>
+
+    <div id="admin-tab-members" class="admin-tab-content hidden">
+        <div id="admin-members-list" class="space-y-2"></div>
+    </div>
+
+    <div id="admin-tab-reports" class="admin-tab-content hidden">
+        <div id="admin-reports-list" class="space-y-3"></div>
+    </div>
+
+    <div id="admin-tab-ticker" class="admin-tab-content hidden">
+        <textarea id="ticker-input" rows="5" class="w-full p-3 rounded-xl text-sm mb-3" placeholder="ข้อความประกาศ..."></textarea>
+        <button onclick="saveTicker()" class="btn-green w-full py-3 rounded-xl font-black text-xs text-white">บันทึกข้อความ</button>
     </div>
 </main>
 
 <main id="room-history" class="section-room max-w-4xl mx-auto p-4 md:p-6 pt-10">
-    <h2 class="text-2xl font-black mb-2 italic border-l-4 border-red-500 pl-4 uppercase text-white/90">ประวัติการซื้อ</h2>
-    <p class="text-[11px] text-white/30 mb-6 ml-5"><i class="fas fa-eye-slash text-red-500/50 mr-1"></i> คลิกที่รหัสเพื่อแสดง (หากซื้อหลายชิ้น กดเพื่อขยายดูทั้งหมด)</p>
+    <h2 class="text-2xl font-black mb-6 uppercase italic border-l-4 border-red-500 pl-4 text-white">ประวัติการซื้อ</h2>
     <div id="history-content" class="space-y-4"></div>
 </main>
 
 <main id="room-topup" class="section-room max-w-lg mx-auto p-6 pt-10 text-center">
-    <div class="glass p-10 rounded-[3rem] border-orange-500/10">
-        <div class="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6"><i class="fas fa-wallet text-orange-400 text-2xl"></i></div>
-        <h2 class="text-2xl font-black mb-6 uppercase italic text-white">Topup Money</h2>
-        <input type="text" id="topup-url" placeholder="วางลิงก์อั่งเปาที่นี่..." class="w-full p-4 rounded-2xl mb-6 text-center">
-        <button onclick="handleTopup()" class="btn-red w-full py-4 rounded-2xl font-black uppercase shadow-xl text-white">ตรวจสอบและเติมเงิน</button>
+    <div class="glass p-8 rounded-[2.5rem] border-white/10 shadow-2xl">
+        <h2 class="text-2xl font-black mb-6 uppercase text-white/90">Topup Point</h2>
+        <div class="flex gap-2 mb-6">
+            <button onclick="switchTopupType('gift')" id="btn-type-gift" class="flex-1 py-2.5 rounded-xl text-xs font-bold bg-white/10 text-white transition">อั่งเปา</button>
+            <button onclick="switchTopupType('qr')" id="btn-type-qr" class="flex-1 py-2.5 rounded-xl text-xs font-bold text-white/50 transition">สแกน QR</button>
+        </div>
+        <div id="topup-gift-sec">
+            <p id="topup-info-label" class="text-sm font-bold text-orange-400 mb-4">มูลค่า 500฿ ต่อลิงก์</p>
+            <input type="text" id="topup-url" placeholder="https://gift.truemoney.com/..." class="w-full p-4 rounded-2xl mb-4 text-center">
+            <button onclick="handleTopup()" class="btn-red w-full py-4 rounded-2xl font-black uppercase text-white">เติมเงิน</button>
+        </div>
+        <div id="topup-qr-sec" class="hidden">
+            <img id="user-qr-img" src="" class="w-48 h-48 mx-auto rounded-2xl mb-4 object-cover border-2 border-white/10 bg-white" onerror="this.src='https://placehold.co/400/ffffff/22c55e?text=QR'">
+            <div class="bg-black/40 p-3 rounded-xl border-white/5 flex justify-between items-center mb-5">
+                <span id="user-pp-text" class="font-mono text-sm text-white/80 font-bold"></span>
+            </div>
+            <button onclick="changeRoom('report')" class="btn-green w-full py-4 rounded-2xl font-black uppercase text-white">แจ้งโอนเงิน</button>
+        </div>
+    </div>
+</main>
+
+<main id="room-report" class="section-room max-w-lg mx-auto p-6 pt-10">
+    <div class="glass p-8 rounded-[2.5rem]">
+        <h2 class="text-2xl font-black mb-6 uppercase text-yellow-400 text-center">แจ้งปัญหา / โอนเงิน</h2>
+        <select id="report-type" class="w-full p-3 rounded-xl mb-4 text-sm"><option value="topup_slip">แจ้งโอนเงิน (สลิป)</option><option value="wrong_acc">รหัสใช้งานไม่ได้</option></select>
+        <select id="report-order" class="w-full p-3 rounded-xl mb-4 text-sm"><option value="">-- เลือกออเดอร์ (ถ้ามี) --</option></select>
+        <textarea id="report-detail" rows="4" placeholder="รายละเอียด / ลิงก์รูปสลิป" class="w-full p-3 rounded-xl mb-4 text-sm"></textarea>
+        <button onclick="submitReport()" class="btn-orange w-full py-4 rounded-2xl font-black uppercase text-white">ส่งข้อมูล</button>
     </div>
 </main>
 
 <div id="auth-modal" class="modal-bg">
     <div class="glass w-full max-w-sm p-10 rounded-[3rem] text-center relative border-white/10">
         <button onclick="closeModal('auth-modal')" class="absolute top-6 right-8 text-2xl text-gray-500 hover:text-white">&times;</button>
-        <div class="w-14 h-14 bg-red-500/10 rounded-2xl flex items-center justify-center mx-auto mb-8"><i class="fas fa-lock text-red-500 text-xl"></i></div>
         <h2 class="text-3xl font-black text-red-400 mb-8 uppercase italic">Login</h2>
-        <input type="text" id="auth-user" placeholder="Username" class="w-full p-4 rounded-2xl mb-3 text-center bg-white/5 border border-white/10 text-white">
-        <input type="password" id="auth-pass" placeholder="Password" class="w-full p-4 rounded-2xl mb-6 text-center bg-white/5 border border-white/10 text-white">
-        <button onclick="doLogin()" class="btn-red w-full py-4 rounded-2xl font-black uppercase shadow-lg text-white">เข้าสู่ระบบ</button>
+        <div id="login-form">
+            <input type="text" id="auth-user" placeholder="Username" class="w-full p-4 rounded-2xl mb-3 text-center">
+            <input type="password" id="auth-pass" placeholder="Password" class="w-full p-4 rounded-2xl mb-6 text-center">
+            <button onclick="doLogin()" class="btn-red w-full py-4 rounded-2xl font-black uppercase text-white mb-4">เข้าสู่ระบบ</button>
+            <p class="text-xs text-gray-500">ไม่มีบัญชี? <span class="text-red-400 cursor-pointer" onclick="toggleAuth(false)">สมัครสมาชิก</span></p>
+        </div>
+        <div id="register-form" class="hidden">
+            <input type="text" id="reg-user" placeholder="Username" class="w-full p-4 rounded-2xl mb-3 text-center">
+            <input type="password" id="reg-pass" placeholder="Password" class="w-full p-4 rounded-2xl mb-6 text-center">
+            <button onclick="doRegister()" class="btn-orange w-full py-4 rounded-2xl font-black uppercase text-white mb-4">สร้างบัญชี</button>
+            <p class="text-xs text-gray-500">มีบัญชีแล้ว? <span class="text-orange-400 cursor-pointer" onclick="toggleAuth(true)">กลับไปล็อกอิน</span></p>
+        </div>
     </div>
 </div>
 
 <div id="detail-modal" class="modal-bg">
-    <div class="glass w-full max-w-lg p-8 rounded-[3rem] relative text-center border-white/10">
+    <div class="glass w-full max-w-lg p-8 rounded-[3rem] relative text-center border-white/10 overflow-y-auto max-h-[90vh]">
         <button onclick="closeModal('detail-modal')" class="absolute top-6 right-8 text-2xl text-gray-500 hover:text-white">&times;</button>
-        <img id="det-img" src="" class="w-full aspect-square object-cover rounded-[2rem] mb-6 shadow-2xl">
+        <div class="relative overflow-hidden rounded-[2rem] mb-6">
+            <img id="det-img" src="" class="w-full aspect-square object-cover zoom-img" onerror="this.src='https://placehold.co/400/1a1a1a/555'">
+            <div id="det-sold" class="hidden sold-overlay">หมดแล้ว</div>
+        </div>
         <h2 id="det-name" class="text-2xl font-black mb-2 uppercase text-white"></h2>
-        
-        <div id="det-price-container" class="mb-8">
-            <span id="det-old-price" class="text-xl text-gray-500 line-through mr-2"></span>
+        <div class="flex justify-center items-center gap-2 mb-6">
+            <span id="det-old-price" class="text-xl text-gray-500 line-through"></span>
             <span id="det-price" class="text-4xl font-black text-red-500"></span>
         </div>
+        <ul id="det-desc" class="text-sm text-white/70 mb-6 text-left space-y-1"></ul>
+        <div id="qty-box" class="mb-6 flex justify-center items-center gap-4"></div>
+        <button id="buy-btn" class="btn-red w-full py-4 rounded-2xl font-black uppercase text-white">ยืนยันการซื้อ</button>
+    </div>
+</div>
 
-        <button id="buy-btn" class="btn-red w-full py-4 rounded-2xl font-black uppercase shadow-xl text-white">ยืนยันการสั่งซื้อ</button>
+<div id="product-modal" class="modal-bg">
+    <div class="glass w-full max-w-lg p-8 rounded-[2.5rem] relative overflow-y-auto max-h-[90vh]">
+        <button onclick="closeModal('product-modal')" class="absolute top-6 right-8 text-2xl text-gray-500 hover:text-white">&times;</button>
+        <h2 id="pm-title" class="text-xl font-black mb-6 uppercase text-white">จัดการสินค้า</h2>
+        <input type="hidden" id="pm-id">
+        <input type="text" id="pm-name" placeholder="ชื่อสินค้า *" class="w-full p-3 rounded-xl mb-3 text-sm">
+        <div class="grid grid-cols-2 gap-3 mb-3">
+            <input type="number" id="pm-price" placeholder="ราคาขาย *" class="p-3 rounded-xl text-sm">
+            <input type="number" id="pm-old-price" placeholder="ราคาเต็ม (ส่วนลด)" class="p-3 rounded-xl text-sm">
+        </div>
+        <div class="grid grid-cols-2 gap-3 mb-3">
+            <select id="pm-cat" class="p-3 rounded-xl text-sm text-black"></select>
+            <select id="pm-badge" class="p-3 rounded-xl text-sm text-black"><option value="">- ไม่มี Badge -</option><option value="hot">🔥 HOT</option><option value="new">✨ NEW</option></select>
+        </div>
+        <input type="text" id="pm-img" placeholder="ลิงก์รูปภาพ *" class="w-full p-3 rounded-xl mb-3 text-sm">
+        <textarea id="pm-desc" rows="2" placeholder="รายละเอียด (1 บรรทัด = 1 ข้อ)" class="w-full p-3 rounded-xl mb-3 text-sm"></textarea>
+        <textarea id="pm-acc" rows="4" placeholder="รหัสไอดี (1 บรรทัด = 1 ชิ้น) *" class="w-full p-3 rounded-xl mb-4 font-mono text-sm"></textarea>
+        <button onclick="saveProduct()" class="btn-green w-full py-4 rounded-xl font-black uppercase text-white">บันทึกสินค้า</button>
+    </div>
+</div>
+
+<div id="member-modal" class="modal-bg">
+    <div class="glass w-full max-w-sm p-8 rounded-[2.5rem] text-center relative">
+        <button onclick="closeModal('member-modal')" class="absolute top-5 right-6 text-2xl text-gray-500">&times;</button>
+        <h2 class="text-xl font-black mb-6 uppercase text-white">แก้ไขสมาชิก</h2>
+        <input type="hidden" id="edit-m-name">
+        <input type="number" id="edit-m-pts" placeholder="ยอดเงิน" class="w-full p-3 rounded-xl mb-3 text-sm">
+        <input type="password" id="edit-m-pass" placeholder="รหัสผ่านใหม่ (ว่าง=ไม่เปลี่ยน)" class="w-full p-3 rounded-xl mb-4 text-sm">
+        <button onclick="saveMemberEdit()" class="btn-blue w-full py-3 rounded-xl font-black text-white">บันทึก</button>
     </div>
 </div>
 
 <div id="confirm-modal" class="modal-bg">
-    <div class="glass w-full max-w-sm p-8 rounded-[2.5rem] text-center border border-white/8">
+    <div class="glass w-full max-w-sm p-8 rounded-[2.5rem] text-center relative">
         <h3 id="confirm-title" class="text-xl font-black mb-2 uppercase text-white/90"></h3>
-        <p id="confirm-msg" class="text-sm text-white/50 mb-8 whitespace-pre-line leading-relaxed"></p>
+        <p id="confirm-msg" class="text-sm text-white/50 mb-6 whitespace-pre-line"></p>
         <div class="flex gap-3">
-            <button onclick="confirmCancel()" class="flex-1 py-3 rounded-2xl font-bold text-sm border border-white/10 hover:bg-white/5 transition text-white/50">ยกเลิก</button>
-            <button onclick="confirmOk()" class="flex-1 btn-red py-3 rounded-2xl font-black text-sm text-white">ยืนยัน</button>
+            <button onclick="confirmCancel()" class="flex-1 py-3 rounded-xl font-bold border border-white/10 text-white/50">ยกเลิก</button>
+            <button onclick="confirmOk()" class="flex-1 btn-red py-3 rounded-xl font-black text-white">ยืนยัน</button>
         </div>
     </div>
 </div>
@@ -327,7 +352,9 @@
 <div id="toast"></div>
 
 <script>
-// 1. FIREBASE CONFIG 
+// ══════════════════════════════════════════════════════════════
+// 1. FIREBASE ONLINE CONFIG (เชื่อมต่อฐานข้อมูลถาวร)
+// ══════════════════════════════════════════════════════════════
 const firebaseConfig = {
   apiKey: "AIzaSyAKCOW7uAJowXhpCUlaW3G",
   authDomain: "wowshop-498d9.firebaseapp.com",
@@ -337,170 +364,145 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// 2. STATE & DATA
+// ══════════════════════════════════════════════════════════════
+// 2. STATE & SYNC (จัดการข้อมูลหลังบ้าน)
+// ══════════════════════════════════════════════════════════════
 let state = {
-    users:[{user:'wow11',pass:'123123z',points:999999}],
-    products:[],
-    categories:[{id:'freefire',label:'Free Fire'}],
-    orders:[],
+    users: [{user:'wow11', pass:'123123z', points:999999}],
+    products: [], categories: [{id:'freefire', label:'Free Fire'}, {id:'rov', label:'ROV'}],
+    orders: [], reports: [], topupHistory: [],
     banners: ['https://placehold.co/1200x400/1a1a1a/ef4444?text=WOWSHOP+WELCOME'],
-    tickerLines:['🔥 ยินดีต้อนรับสู่ WOWSHOP ระบบอัตโนมัติ 24 ชม.'],
-    darkMode:true
+    tickerLines: ['🔥 WOWSHOP ID STORE ยินดีต้อนรับ ระบบอัตโนมัติ 24 ชม.'],
+    topupAmount: 500, topupLabel: 'มูลค่า 500฿', promptpayQR: '', promptpayNum: '',
+    darkMode: true, adminRevenue: 0
 };
 
-let currentUser = JSON.parse(localStorage.getItem('wow_current_user')) || null;
-let isAdminMode = false;
-let currentCat = 'all';
-let currentSearch = '';
+let currentUser = JSON.parse(localStorage.getItem('wow_login_user')) || null;
+let currentCat = 'all', currentSearch = '';
 
-// 3. CORE SYNC (ป้องกัน Error ข้อมูลแหว่งด้วย Fallback)
-db.ref('wowshop_db_v2_discount').on('value', snap => {
-    const data = snap.val();
-    if(data) {
-        state = data;
-        // ล็อกค่าเพื่อไม่ให้ Crash เวลาวน Loop
-        state.users = state.users || [];
-        state.products = state.products || [];
-        state.categories = state.categories || [];
-        state.orders = state.orders || [];
-        state.banners = state.banners || [];
-        state.topupHistory = state.topupHistory || [];
-    } else {
-        saveCloud(); 
-    }
-    renderAllUI();
+// ดึงข้อมูล Realtime
+db.ref('wowshop_perfect_v3').on('value', snap => {
+    if(snap.val()) { state = snap.val(); }
+    else { saveCloud(); }
+    renderAll();
 });
 
-function saveCloud() { db.ref('wowshop_db_v2_discount').set(state); }
+function saveCloud() { db.ref('wowshop_perfect_v3').set(state); }
 
-// 4. RENDERING FUNCTIONS 
-function renderAllUI() {
-    applyTheme();
-    renderTicker();
-    renderBanners();
-    renderCategoryFilter();
-    renderCatAdmin();
-    renderProducts();
-    updateAuthUI();
-    renderHistory();
-    
-    // อัปเดตสถิติแอดมิน
-    if(document.getElementById('stat-revenue')) {
-        document.getElementById('stat-revenue').textContent = (state.orders || []).reduce((a,b)=>a+(b.totalPrice||b.price||0), 0).toFixed(2) + '฿';
-        document.getElementById('stat-orders').textContent = (state.orders || []).length;
-        document.getElementById('stat-products').textContent = (state.products || []).length;
-        document.getElementById('stat-users').textContent = (state.users || []).length;
-    }
+// ══════════════════════════════════════════════════════════════
+// 3. UI RENDER (อัปเดตหน้าจอทั้งหมด)
+// ══════════════════════════════════════════════════════════════
+function renderAll() {
+    applyTheme(); renderTicker(); renderBanners(); renderCatFilter(); renderProducts(); updateAuthUI(); renderHistory();
+    if(currentUser && currentUser.isAdmin) renderAdminPanel();
 }
 
+function applyTheme() {
+    document.body.classList.toggle('light', !state.darkMode);
+    document.getElementById('theme-btn').innerHTML = state.darkMode ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun text-yellow-400"></i>';
+    const logo = document.getElementById('nav-logo');
+    if(logo) logo.src = '1000014994.png';
+}
+function toggleDarkMode() { state.darkMode = !state.darkMode; saveCloud(); }
+
+function renderTicker() { 
+    const t = document.getElementById('ticker-text');
+    if(t) t.innerHTML = (state.tickerLines||[]).map(l => `<span class="px-12">${l}</span>`).join('').repeat(2); 
+}
+
+function renderBanners() {
+    const wrap = document.getElementById('main-slider'), track = document.getElementById('slider-track');
+    if(!wrap || !state.banners || state.banners.length === 0) { wrap.classList.add('hidden'); return; }
+    wrap.classList.remove('hidden');
+    track.innerHTML = state.banners.map(b => `<img src="${b}" class="slider-slide bg-white/5">`).join('');
+}
+
+function renderCatFilter() {
+    const bar = document.getElementById('cat-filter-bar');
+    if(!bar) return;
+    const cats = [{id:'all', label:'ทั้งหมด'}, ...(state.categories||[])];
+    bar.innerHTML = cats.map(c => `<button onclick="filterCat('${c.id}')" class="category-btn glass px-6 py-2.5 rounded-xl text-xs font-bold ${currentCat===c.id?'active':''}">${c.label}</button>`).join('');
+}
+
+function filterCat(id) { currentCat = id; currentSearch = ''; document.getElementById('search-input').value = ''; renderProducts(); renderCatFilter(); }
+function handleSearch() { currentSearch = document.getElementById('search-input').value.toLowerCase(); currentCat = 'all'; renderProducts(); renderCatFilter(); }
+
 function renderProducts() {
-    const list = document.getElementById('product-list');
+    const list = document.getElementById('product-list'), empty = document.getElementById('product-empty');
     let items = state.products || [];
-    
     if(currentCat !== 'all') items = items.filter(p => p.category === currentCat);
-    if(currentSearch) items = items.filter(p => p.name.toLowerCase().includes(currentSearch.toLowerCase()));
-    
-    if(items.length === 0) {
-        list.innerHTML = '';
-        document.getElementById('product-empty').classList.remove('hidden');
+    if(currentSearch) items = items.filter(p => p.name.toLowerCase().includes(currentSearch));
+
+    if(items.length === 0 && (state.products||[]).length > 0) {
+        list.innerHTML = ''; empty.classList.remove('hidden');
     } else {
-        document.getElementById('product-empty').classList.add('hidden');
+        empty.classList.add('hidden');
         list.innerHTML = items.map(p => {
             const sold = p.stock <= 0;
-            
-            // 🏷️ คำนวณส่วนลด % (ป้าย Badge ลดราคา)
-            let discountBadge = '';
-            if (p.oldPrice && p.oldPrice > p.price && !sold) {
-                let percent = Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
-                discountBadge = `<div class="absolute top-5 left-5 z-10 text-[10px] text-white px-2 py-0.5 rounded-full font-black bg-gradient-to-r from-red-600 to-pink-600 shadow-lg border border-white/20 animate-pulse">ลด ${percent}%</div>`;
-            } else if (p.badge && !sold) {
-                const badgeMap = {hot:'🔥 HOT',new:'✨ NEW'};
-                discountBadge = `<div class="absolute top-5 left-5 z-10 text-[9px] text-white px-2 py-0.5 rounded-full font-black badge-${p.badge}">${badgeMap[p.badge]||''}</div>`;
+            // 🏷️ ระบบคำนวณส่วนลด (Discount Tag)
+            let badgeHtml = '';
+            if(p.oldPrice && p.oldPrice > p.price && !sold) {
+                const percent = Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
+                badgeHtml = `<div class="absolute top-5 left-5 z-10 text-[10px] text-white px-2 py-0.5 rounded-full font-black bg-gradient-to-r from-pink-500 to-red-500 animate-pulse border border-white/20">ลด ${percent}%</div>`;
+            } else if(p.badge && !sold) {
+                const bMap = {hot:'🔥 HOT', new:'✨ NEW'};
+                badgeHtml = `<div class="absolute top-5 left-5 z-10 text-[9px] text-white px-2 py-0.5 rounded-full font-black badge-${p.badge}">${bMap[p.badge]||''}</div>`;
             }
-
+            
             return `
             <div class="product-card glass p-3 rounded-[2.5rem] relative" onclick="openDetail(${p.id})">
-                ${discountBadge}
+                ${badgeHtml}
                 ${sold ? '<div class="sold-overlay rounded-[2.5rem]">หมดแล้ว</div>' : ''}
-                <img src="${p.img}" class="w-full aspect-square object-cover rounded-[2rem] mb-4 shadow-lg" onerror="this.src='https://placehold.co/400x400/1a1a1a/555?text=?'">
+                <div class="overflow-hidden rounded-[2rem] mb-4">
+                    <img src="${p.img}" class="w-full aspect-square object-cover bg-white/5 zoom-img" onerror="this.src='https://placehold.co/400/1a1a1a/555'">
+                </div>
                 <h4 class="text-xs font-bold truncate text-white px-2 mb-1 uppercase">${p.name}</h4>
                 <div class="flex justify-between items-center px-2">
                     <span class="text-sm font-black ${sold?'text-white/30':'text-red-400'}">
-                        ${p.oldPrice && p.oldPrice > p.price ? `<span class="text-[10px] text-gray-500 line-through mr-1">${p.oldPrice}฿</span>` : ''}
-                        ${p.price}฿
+                        ${p.oldPrice && p.oldPrice > p.price ? `<span class="text-[10px] text-gray-500 line-through mr-1">${p.oldPrice}฿</span>` : ''}${p.price}฿
                     </span>
                 </div>
             </div>`;
         }).join('');
     }
-
-    // อัปเดตในแอดมินพาเนล
-    const adm = document.getElementById('admin-product-list');
-    if(adm) {
-        adm.innerHTML = (state.products || []).map(p => `
-            <div class="glass p-4 rounded-xl flex justify-between items-center border-white/5">
-                <div>
-                    <span class="text-white text-sm font-bold uppercase">${p.name}</span>
-                    <span class="text-[10px] text-white/50 ml-2">(${p.price}฿ / คลัง: ${p.stock})</span>
-                </div>
-                <div>
-                    <button onclick="openEditProduct(${p.id})" class="text-blue-400 bg-blue-500/10 w-9 h-9 rounded-xl hover:bg-blue-500 hover:text-white transition mr-2"><i class="fas fa-pen"></i></button>
-                    <button onclick="deleteProduct(${p.id})" class="text-red-500 bg-red-500/10 w-9 h-9 rounded-xl hover:bg-red-500 hover:text-white transition"><i class="fas fa-trash"></i></button>
-                </div>
-            </div>`).join('');
-    }
 }
 
-function openDetail(id) {
-    const p = (state.products||[]).find(x => x.id == id);
-    if(!p || p.stock <= 0) return;
-    
-    document.getElementById('det-img').src = p.img;
-    document.getElementById('det-name').textContent = p.name;
-    
-    // โชว์ราคาเต็มถ้ามี
-    if(p.oldPrice && p.oldPrice > p.price) {
-        document.getElementById('det-old-price').textContent = p.oldPrice + '฿';
-    } else {
-        document.getElementById('det-old-price').textContent = '';
-    }
-    document.getElementById('det-price').textContent = p.price + " ฿";
-    
-    document.getElementById('buy-btn').onclick = () => doPurchase(p);
-    openModal('detail-modal');
+// ══════════════════════════════════════════════════════════════
+// 4. AUTH & USER SYSTEM
+// ══════════════════════════════════════════════════════════════
+function toggleAuth(isLogin) {
+    document.getElementById('login-form').classList.toggle('hidden', !isLogin);
+    document.getElementById('register-form').classList.toggle('hidden', isLogin);
 }
 
-// 5. ACTION FUNCTIONS
+function doRegister() {
+    const u = document.getElementById('reg-user').value.trim(), p = document.getElementById('reg-pass').value;
+    if(u.length < 3 || p.length < 4) return showToast('ชื่อ 3 ตัว รหัส 4 ตัวขึ้นไป', 'error');
+    if((state.users||[]).find(x => x.user.toLowerCase() === u.toLowerCase())) return showToast('ชื่อถูกใช้แล้ว', 'error');
+    if(!state.users) state.users = [];
+    state.users.push({user: u, pass: p, points: 0});
+    saveCloud(); showToast('สมัครสำเร็จ! ล็อกอินได้เลย'); toggleAuth(true);
+}
+
 function doLogin() {
-    const u = document.getElementById('auth-user').value;
-    const p = document.getElementById('auth-pass').value;
-    if(!u || !p) return showToast('กรุณากรอกข้อมูล', 'error');
+    const u = document.getElementById('auth-user').value.trim(), p = document.getElementById('auth-pass').value;
+    if(!u || !p) return showToast('กรอกข้อมูลให้ครบ', 'error');
     
-    const found = (state.users||[]).find(x => x.user === u && x.pass === p);
-    
+    // เช็ค Hardcode แอดมิน (ป้องกันปุ่มหาย)
     if(u === 'wow11' && p === '123123z') {
-        currentUser = { name: u, points: 999999, isAdmin: true };
-    } else if (found) {
-        currentUser = { name: u, points: found.points, isAdmin: false };
+        currentUser = { user: u, points: 999999, isAdmin: true };
     } else {
-        return showToast('ชื่อหรือรหัสผ่านผิด', 'error');
+        const found = (state.users||[]).find(x => x.user === u && x.pass === p);
+        if(found) currentUser = { user: u, points: found.points, isAdmin: false };
+        else return showToast('ชื่อหรือรหัสผิด', 'error');
     }
     
-    localStorage.setItem('wow_current_user', JSON.stringify(currentUser));
-    updateAuthUI();
-    closeModal('auth-modal');
-    showToast('เข้าสู่ระบบสำเร็จ');
+    localStorage.setItem('wow_login_user', JSON.stringify(currentUser));
+    updateAuthUI(); closeModal('auth-modal'); showToast('เข้าสู่ระบบแล้ว');
     ['auth-user','auth-pass'].forEach(id=>document.getElementById(id).value='');
 }
 
-function doLogout() { 
-    localStorage.removeItem('wow_current_user'); 
-    currentUser = null; 
-    isAdminMode = false;
-    updateAuthUI(); 
-    changeRoom('home'); 
-    showToast('ออกจากระบบแล้ว', 'info'); 
-}
+function doLogout() { localStorage.removeItem('wow_login_user'); currentUser = null; updateAuthUI(); changeRoom('home'); showToast('ออกจากระบบ', 'info'); }
 
 function updateAuthUI() {
     const u = currentUser;
@@ -509,179 +511,270 @@ function updateAuthUI() {
     document.getElementById('logout-btn-area').style.display = u ? 'block' : 'none';
     if(u) {
         document.getElementById('points-val').textContent = u.points.toFixed(2);
-        isAdminMode = u.isAdmin;
+        document.getElementById('current-username').textContent = u.user;
+        document.getElementById('user-avatar').textContent = u.user[0].toUpperCase();
         document.getElementById('admin-panel-link').style.display = u.isAdmin ? 'block' : 'none';
-    } else {
-        isAdminMode = false;
-        document.getElementById('admin-panel-link').style.display = 'none';
     }
 }
 
-// ฟังก์ชันเพิ่ม/แก้ไข สินค้า
-function openEditProduct(id){
-    const p = (state.products||[]).find(x=>x.id===id); if(!p) return;
+// ══════════════════════════════════════════════════════════════
+// 5. BUY & DETAIL SYSTEM
+// ══════════════════════════════════════════════════════════════
+let detailItem = null;
+function openDetail(id) {
+    const p = (state.products||[]).find(x => x.id == id); if(!p) return;
+    detailItem = p;
+    document.getElementById('det-img').src = p.img;
+    document.getElementById('det-name').textContent = p.name;
+    document.getElementById('det-old-price').textContent = (p.oldPrice && p.oldPrice > p.price) ? p.oldPrice + '฿' : '';
+    document.getElementById('det-price').textContent = p.price + '฿';
+    document.getElementById('det-desc').innerHTML = (p.desc||[]).map(d => `<li><i class="fas fa-check text-red-500 mr-2"></i>${d}</li>`).join('');
+    
+    const sold = p.stock <= 0;
+    document.getElementById('det-sold').style.display = sold ? 'flex' : 'none';
+    
+    const qBox = document.getElementById('qty-box');
+    const btn = document.getElementById('buy-btn');
+    if(sold) {
+        qBox.innerHTML = '';
+        btn.disabled = true; btn.className = 'w-full py-4 rounded-2xl font-black bg-white/10 text-white/30 cursor-not-allowed'; btn.textContent = 'สินค้าหมดแล้ว';
+    } else {
+        qBox.innerHTML = `
+            <button onclick="chgQ(-1)" class="w-10 h-10 bg-white/5 rounded-xl text-white/50 hover:bg-white/10 transition font-black">-</button>
+            <input type="number" id="b-qty" value="1" min="1" max="${p.stock}" class="w-16 h-10 text-center bg-transparent border-none font-black text-xl pointer-events-none" readonly>
+            <button onclick="chgQ(1)" class="w-10 h-10 bg-white/5 rounded-xl text-white/50 hover:bg-white/10 transition font-black">+</button>
+        `;
+        btn.disabled = false; btn.className = 'btn-red w-full py-4 rounded-2xl font-black uppercase text-white shadow-xl'; btn.textContent = 'ยืนยันการสั่งซื้อ';
+        btn.onclick = () => doPurchase();
+    }
+    openModal('detail-modal');
+}
+
+function chgQ(d) {
+    const inp = document.getElementById('b-qty'); if(!inp) return;
+    let v = parseInt(inp.value) + d;
+    if(v < 1) v = 1; if(v > detailItem.stock) v = detailItem.stock;
+    inp.value = v;
+    document.getElementById('det-price').textContent = (detailItem.price * v) + '฿';
+}
+
+async function doPurchase() {
+    if(!currentUser) { closeModal('detail-modal'); return openModal('auth-modal'); }
+    const p = detailItem; if(!p || p.stock <= 0) return showToast('ของหมด', 'error');
+    
+    const q = parseInt(document.getElementById('b-qty').value);
+    const total = p.price * q;
+    if(currentUser.points < total) { closeModal('detail-modal'); showToast('เงินไม่พอ ไปเติมเงินก่อนนะ', 'error'); return changeRoom('topup'); }
+    
+    const ok = await showConfirm('ยืนยันซื้อสินค้า', `คุณต้องการซื้อ ${p.name} จำนวน ${q} ชิ้น รวม ${total}฿?`);
+    if(!ok) return;
+
+    let bought = [];
+    for(let i=0; i<q; i++) {
+        let acc = p.accounts.shift();
+        bought.push(acc);
+    }
+    p.stock = p.accounts.length;
+    currentUser.points -= total;
+    localStorage.setItem('wow_login_user', JSON.stringify(currentUser));
+    
+    if(!state.orders) state.orders = [];
+    state.orders.push({ buyerUser: currentUser.user, name: p.name, data: bought.join('\n'), buyDate: new Date().toLocaleString('th-TH'), price: total, qty: q });
+    state.adminRevenue = (state.adminRevenue||0) + total;
+    
+    saveCloud(); closeModal('detail-modal');
+    
+    // 🎉 พลุฉลอง!
+    if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#ef4444', '#ffffff'] });
+    
+    showToast('ชำระเงินสำเร็จ! ตรวจสอบรหัสได้เลย'); changeRoom('history');
+}
+
+function renderHistory() {
+    const cont = document.getElementById('history-content');
+    if(!currentUser) { cont.innerHTML = ''; return; }
+    const mine = (state.orders||[]).filter(o => o.buyerUser === currentUser.user);
+    if(mine.length === 0) { cont.innerHTML = '<div class="glass p-10 rounded-[2rem] text-center text-white/30 italic">ยังไม่เคยซื้อสินค้า</div>'; return; }
+    
+    cont.innerHTML = mine.reverse().map(h => `
+        <div class="glass p-5 rounded-3xl border-l-4 border-red-500 mb-3">
+            <h4 class="text-white font-bold uppercase mb-1">${h.name} <span class="text-[9px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded ml-1">x${h.qty||1}</span></h4>
+            <p class="text-[10px] text-white/30 mb-3">${h.buyDate} | ${h.price}฿</p>
+            <div class="bg-black/40 p-3 rounded-xl border border-white/5 font-mono text-green-400 text-xs whitespace-pre-line break-all">${h.data}</div>
+        </div>
+    `).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+// 6. ADMIN SYSTEM (ระบบจัดการหลังบ้านครบ 100%)
+// ══════════════════════════════════════════════════════════════
+function renderAdminPanel() {
+    // สถิติ
+    document.getElementById('stat-revenue').textContent = (state.adminRevenue||0).toFixed(2)+'฿';
+    document.getElementById('stat-orders').textContent = (state.orders||[]).length;
+    document.getElementById('stat-products').textContent = (state.products||[]).length;
+    document.getElementById('stat-topup').textContent = (state.totalTopup||0).toFixed(2)+'฿';
+
+    // หมวดหมู่ใน Dropdown
+    const catSel = document.getElementById('pm-cat');
+    if(catSel) catSel.innerHTML = (state.categories||[]).map(c => `<option value="${c.id}">${c.label}</option>`).join('');
+
+    // สินค้า
+    const pList = document.getElementById('admin-product-list');
+    if(pList) pList.innerHTML = (state.products||[]).map(p => `
+        <div class="glass p-4 rounded-xl flex items-center justify-between border border-white/5">
+            <div class="flex items-center gap-3">
+                <img src="${p.img}" class="w-10 h-10 rounded-lg object-cover" onerror="this.src='https://placehold.co/40'">
+                <div><p class="text-sm text-white font-bold truncate max-w-[150px]">${p.name}</p><p class="text-[10px] text-white/40">${p.price}฿ | คลัง: ${p.stock}</p></div>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="openEditProduct(${p.id})" class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400"><i class="fas fa-pen text-xs"></i></button>
+                <button onclick="delProduct(${p.id})" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400"><i class="fas fa-trash text-xs"></i></button>
+            </div>
+        </div>
+    `).join('');
+    
+    // หมวดหมู่
+    const cList = document.getElementById('cat-list');
+    if(cList) cList.innerHTML = (state.categories||[]).map(c => `
+        <div class="glass p-3 rounded-xl flex justify-between items-center text-sm border-white/5">
+            <span class="text-white">${c.label}</span>
+            <button onclick="delCat('${c.id}')" class="text-red-500"><i class="fas fa-trash"></i></button>
+        </div>`).join('');
+
+    // แบนเนอร์
+    const bList = document.getElementById('admin-banner-list');
+    if(bList) bList.innerHTML = (state.banners||[]).map((b,i) => `
+        <div class="glass p-3 rounded-xl flex items-center gap-3 border-white/5">
+            <img src="${b}" class="w-20 h-10 object-cover rounded-lg">
+            <input type="text" class="flex-1 p-2 rounded-lg text-xs" value="${b}" onchange="updateBanner(${i}, this.value)">
+            <button onclick="delBanner(${i})" class="text-red-500 w-8 h-8 bg-red-500/10 rounded-lg"><i class="fas fa-trash"></i></button>
+        </div>`).join('');
+
+    // เติมเงินตั้งค่า
+    document.getElementById('topup-amount-input').value = state.topupAmount || 500;
+    document.getElementById('admin-qr-input').value = state.promptpayQR || '';
+    document.getElementById('admin-pp-num').value = state.promptpayNum || '';
+    
+    // ออเดอร์
+    const oList = document.getElementById('admin-orders-list');
+    if(oList) oList.innerHTML = [...(state.orders||[])].reverse().map(o => `
+        <div class="glass p-3 rounded-xl text-xs border-white/5 flex justify-between">
+            <div><span class="text-white font-bold">${o.buyerUser}</span><p class="text-white/40">${o.name}</p></div>
+            <div class="text-right"><span class="text-green-400">+${o.price}฿</span><p class="text-white/20">${o.buyDate}</p></div>
+        </div>`).join('');
+
+    // สมาชิก
+    const mList = document.getElementById('admin-members-list');
+    if(mList) mList.innerHTML = (state.users||[]).map(u => `
+        <div class="glass p-3 rounded-xl text-xs border-white/5 flex justify-between items-center">
+            <span class="text-white font-bold">${u.user}</span>
+            <div class="flex gap-2 items-center"><span class="text-yellow-400">${u.points}฿</span>
+            <button onclick="openMemberEdit('${u.user}')" class="text-blue-400 bg-white/5 w-6 h-6 rounded"><i class="fas fa-pen"></i></button></div>
+        </div>`).join('');
+}
+
+// --- ฟังก์ชันสินค้าแอดมิน ---
+function openAddProduct() {
+    document.getElementById('pm-id').value = '';
+    document.getElementById('pm-title').textContent = 'เพิ่มสินค้า';
+    ['pm-name','pm-price','pm-old-price','pm-img','pm-desc','pm-acc'].forEach(id=>document.getElementById(id).value='');
+    openModal('product-modal');
+}
+function openEditProduct(id) {
+    const p = state.products.find(x=>x.id==id); if(!p) return;
     document.getElementById('pm-id').value = p.id;
+    document.getElementById('pm-title').textContent = 'แก้ไขสินค้า';
     document.getElementById('pm-name').value = p.name;
     document.getElementById('pm-price').value = p.price;
     document.getElementById('pm-old-price').value = p.oldPrice || '';
+    document.getElementById('pm-cat').value = p.category;
+    document.getElementById('pm-badge').value = p.badge || '';
     document.getElementById('pm-img').value = p.img;
-    document.getElementById('pm-category').value = p.category || 'freefire';
+    document.getElementById('pm-desc').value = (p.desc||[]).join('\n');
     document.getElementById('pm-acc').value = (p.accounts||[]).join('\n');
+    openModal('product-modal');
 }
-
-function clearProductForm() {
-    ['pm-id','pm-name','pm-price','pm-old-price','pm-img','pm-acc'].forEach(id=>document.getElementById(id).value='');
-}
-
 function saveProduct() {
     const id = document.getElementById('pm-id').value;
     const name = document.getElementById('pm-name').value.trim();
     const price = parseInt(document.getElementById('pm-price').value);
     const oldPrice = parseInt(document.getElementById('pm-old-price').value) || 0;
     const img = document.getElementById('pm-img').value;
-    const cat = document.getElementById('pm-category').value;
-    const accs = document.getElementById('pm-acc').value.split('\n').filter(x => x.trim() !== '');
+    const cat = document.getElementById('pm-cat').value;
+    const badge = document.getElementById('pm-badge').value;
+    const desc = document.getElementById('pm-desc').value.split('\n').filter(x=>x.trim()!=='');
+    const accs = document.getElementById('pm-acc').value.split('\n').filter(x=>x.trim()!=='');
     
-    if(!name || isNaN(price) || accs.length === 0) return showToast('กรอกข้อมูลไม่ครบ', 'error');
+    if(!name || isNaN(price) || accs.length === 0) return showToast('กรอกให้ครบ: ชื่อ, ราคา, ไอดี', 'error');
     if(!state.products) state.products = [];
-
-    const productObj = { id: id ? parseInt(id) : Date.now(), name, price, oldPrice, img, category: cat, accounts: accs, stock: accs.length };
-
+    
+    const pData = { id: id ? parseInt(id) : Date.now(), name, price, oldPrice, img, category: cat, badge, desc, accounts: accs, stock: accs.length };
+    
     if(id) {
-        const idx = state.products.findIndex(x => x.id === parseInt(id));
-        if(idx >= 0) state.products[idx] = productObj;
+        const idx = state.products.findIndex(x=>x.id==id);
+        if(idx>=0) state.products[idx] = pData;
     } else {
-        state.products.push(productObj);
+        state.products.push(pData);
     }
-
-    saveCloud();
-    showToast(id ? 'แก้ไขสินค้าสำเร็จ' : 'เพิ่มสินค้าสำเร็จ');
-    clearProductForm();
+    saveCloud(); closeModal('product-modal'); showToast('บันทึกสินค้าสำเร็จ');
 }
+async function delProduct(id) { if(await showConfirm('ลบ?','ลบสินค้านี้ใช่ไหม?')) { state.products = state.products.filter(x=>x.id!=id); saveCloud(); } }
 
-async function deleteProduct(id) { 
-    if(await showConfirm('ลบสินค้า','ยืนยันการลบสินค้านี้?')){
-        state.products = state.products.filter(x => x.id != id); 
-        saveCloud(); 
-    }
-}
-
-async function doPurchase(p) {
-    if(!currentUser) return openModal('auth-modal');
-    
-    // ดึงข้อมูลสินค้าที่สดใหม่จาก state เพื่อป้องกันบัคของหมดตอนกดซื้อ
-    const freshProduct = (state.products||[]).find(x => x.id === p.id);
-    if(!freshProduct || freshProduct.stock <= 0) return showToast('สินค้าหมด', 'error');
-
-    if(currentUser.points < freshProduct.price) return showToast('เงินไม่พอ', 'error');
-    
-    const ok = await showConfirm('ยืนยันการสั่งซื้อ', `คุณต้องการซื้อ ${freshProduct.name} ในราคา ${freshProduct.price}฿ ใช่หรือไม่?`);
-    if(!ok) return;
-
-    // ระบบหักของ
-    const item = freshProduct.accounts.shift(); 
-    freshProduct.stock = freshProduct.accounts.length; 
-    currentUser.points -= freshProduct.price;
-    localStorage.setItem('wow_current_user', JSON.stringify(currentUser));
-
-    if(!state.orders) state.orders = [];
-    state.orders.push({ buyerUser: currentUser.name, name: freshProduct.name, data: item, buyDate: new Date().toLocaleString('th-TH'), price: freshProduct.price });
-    
-    saveCloud(); 
-    renderAllUI();
-    closeModal('detail-modal');
-    
-    // 🎉 เอฟเฟกต์พลุ Confetti สีแดง!
-    if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#ef4444', '#ffffff', '#fbbf24'] });
-    
-    showToast('ซื้อสำเร็จ! ดูรหัสที่หน้าประวัติ');
-    changeRoom('history');
-}
-
-function handleTopup() {
-    if(!currentUser) return openModal('auth-modal');
-    const url = document.getElementById('topup-url').value;
-    if(!url.includes('gift.truemoney.com')) return showToast('ลิงก์อั่งเปาไม่ถูกต้อง', 'error');
-    
-    currentUser.points += 500;
-    localStorage.setItem('wow_current_user', JSON.stringify(currentUser));
-    updateAuthUI();
-    showToast('เติมเงินสำเร็จ +500฿');
-    document.getElementById('topup-url').value = '';
-    changeRoom('home');
-}
-
-// 6. HELPERS & UI 
-function renderHistory() {
-    if(!currentUser) return;
-    const mine = (state.orders || []).filter(x => x.buyerUser === currentUser.name);
-    const cont = document.getElementById('history-content');
-    if(mine.length === 0) {
-        cont.innerHTML = '<div class="glass p-12 rounded-3xl text-center text-gray-500 italic text-sm">ยังไม่มีข้อมูลการซื้อ</div>';
-    } else {
-        cont.innerHTML = mine.reverse().map(h => `
-            <div class="glass p-5 rounded-3xl border-l-4 border-red-500">
-                <div class="text-white font-bold uppercase text-sm">${h.name}</div>
-                <div class="text-white/30 text-[10px] mb-2">${h.buyDate}</div>
-                <div class="bg-black/50 p-3 rounded-xl font-mono text-green-400 text-xs border border-white/5 break-all">${h.data}</div>
-            </div>`).join('');
-    }
-}
-
-function renderCategoryFilter() {
-    const bar = document.getElementById('cat-filter-bar');
-    if(!bar) return;
-    const cats = [{id:'all', label:'ทั้งหมด'}, ...(state.categories||[])];
-    bar.innerHTML = cats.map(c => `<button onclick="filterCategory('${c.id}', this)" class="category-btn glass px-6 py-2.5 rounded-xl text-xs font-bold ${currentCat===c.id?'active':''}">${c.label}</button>`).join('');
-}
-
-function filterCategory(cat, btn){
-    currentCat = cat; currentSearch = '';
-    document.getElementById('search-input').value = '';
-    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-    if(btn) btn.classList.add('active');
-    renderProducts();
-}
-function handleSearch(){
-    currentSearch = document.getElementById('search-input').value;
-    currentCat = 'all';
-    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-    renderProducts();
-}
-
-function renderCatAdmin() {
-    const pmCat = document.getElementById('pm-category');
-    if(pmCat) pmCat.innerHTML = (state.categories||[]).map(c => `<option value="${c.id}">${c.label}</option>`).join('');
-}
-function addCategory(){
-    const id = document.getElementById('new-cat-id').value.trim().toLowerCase().replace(/\s+/g,'_');
+// --- ฟังก์ชันหมวดหมู่ ---
+function addCategory() {
+    const id = document.getElementById('new-cat-id').value.trim();
     const label = document.getElementById('new-cat-label').value.trim();
-    if(!id||!label) return showToast('กรอกไม่ครบ','error');
+    if(!id || !label) return;
     if(!state.categories) state.categories = [];
-    state.categories.push({id,label});
-    saveCloud(); showToast('เพิ่มหมวดหมู่แล้ว');
+    state.categories.push({id, label}); saveCloud(); document.getElementById('new-cat-id').value=''; document.getElementById('new-cat-label').value=''; showToast('เพิ่มหมวดหมู่แล้ว');
+}
+function delCat(id) { state.categories = state.categories.filter(x=>x.id!=id); saveCloud(); }
+
+// --- ฟังก์ชันแบนเนอร์ ---
+function addEmptyBanner() { if(!state.banners) state.banners=[]; state.banners.push('https://placehold.co/1200x400/1a1a1a/ef4444?text=NEW'); saveCloud(); }
+function updateBanner(i, val) { state.banners[i] = val; saveCloud(); }
+function delBanner(i) { state.banners.splice(i,1); saveCloud(); }
+
+// --- ฟังก์ชันสมาชิก ---
+function openMemberEdit(u) {
+    const usr = state.users.find(x=>x.user==u); if(!usr) return;
+    document.getElementById('edit-m-name').value = u;
+    document.getElementById('edit-m-pts').value = usr.points;
+    document.getElementById('edit-m-pass').value = '';
+    openModal('member-modal');
+}
+function saveMemberEdit() {
+    const u = document.getElementById('edit-m-name').value;
+    const pts = parseFloat(document.getElementById('edit-m-pts').value);
+    const pass = document.getElementById('edit-m-pass').value;
+    const usr = state.users.find(x=>x.user==u);
+    if(usr) {
+        usr.points = pts;
+        if(pass.length >= 4) usr.pass = pass; // ระบบไม่ยุ่งกับเข้ารหัสเพื่อแอดมินดูง่าย
+        saveCloud(); closeModal('member-modal'); showToast('อัปเดตสมาชิกแล้ว');
+    }
 }
 
-function renderBanners() { 
-    const el = document.getElementById('main-slider');
-    const track = document.getElementById('slider-track');
-    if(!el || !track) return;
-    if(!state.banners || state.banners.length === 0) { el.classList.add('hidden'); return; }
-    el.classList.remove('hidden');
-    track.innerHTML = state.banners.map(b=>`<img src="${b}" class="slider-slide bg-white/5">`).join(''); 
-}
-function renderTicker() { 
-    const t = document.getElementById('ticker-text');
-    if(t) t.innerHTML = (state.tickerLines||[]).map(l=>`<span class="px-12">${l}</span>`).join('').repeat(2); 
+// --- ฟังก์ชันอื่นๆ ---
+function saveTopupSettings() { state.topupAmount = parseInt(document.getElementById('topup-amount-input').value); saveCloud(); showToast('บันทึกค่าอั่งเปา'); }
+function saveQRSettings() { state.promptpayQR = document.getElementById('admin-qr-input').value; state.promptpayNum = document.getElementById('admin-pp-num').value; saveCloud(); showToast('บันทึก QR Code'); }
+function saveTicker() { state.tickerLines = document.getElementById('ticker-input').value.split('\n').filter(x=>x.trim()!=''); saveCloud(); showToast('อัปเดตประกาศ'); }
+function exportOrders() {
+    if(!state.orders||!state.orders.length) return;
+    const csv=['\uFEFFผู้ซื้อ,สินค้า,ราคา,วันที่',...state.orders.map(o=>`${o.buyerUser},"${o.name}",${o.price},${o.buyDate}`)].join('\n');
+    const a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download='orders.csv'; a.click();
 }
 
+// ══════════════════════════════════════════════════════════════
+// 7. UTILS
+// ══════════════════════════════════════════════════════════════
 function switchAdminTab(tab){
     document.querySelectorAll('.admin-tab-content').forEach(el=>el.classList.add('hidden'));
     document.querySelectorAll('.admin-tab').forEach(btn=>btn.classList.remove('active'));
     document.getElementById(`admin-tab-${tab}`).classList.remove('hidden');
     document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
 }
-
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('sidebar-overlay').classList.toggle('hidden'); }
 function openModal(id) { document.getElementById(id).classList.add('active'); }
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
@@ -691,12 +784,16 @@ function changeRoom(id) {
     document.getElementById('sidebar').classList.remove('active');
     document.getElementById('sidebar-overlay').classList.add('hidden');
     window.scrollTo(0,0);
-    if(id === 'history') renderHistory();
+    
+    if(id==='report' && currentUser) {
+        document.getElementById('report-order').innerHTML = '<option value="">-- เลือกออเดอร์ --</option>' + (state.orders||[]).filter(o=>o.buyerUser===currentUser.user).map(o=>`<option value="${o.name}">${o.name}</option>`).join('');
+    }
 }
 function checkAccess(room) { if(!currentUser) openModal('auth-modal'); else changeRoom(room); }
-function applyTheme() { document.body.classList.toggle('light', !state.darkMode); }
-function toggleDarkMode() { state.darkMode = !state.darkMode; saveCloud(); applyTheme(); }
-
+function showToast(m, type='success') { const t = document.getElementById('toast'); t.textContent = m; t.className = `${type} show`; setTimeout(() => t.className = '', 3000); }
+function switchTopupType(t) { document.getElementById('topup-gift-sec').classList.toggle('hidden', t!=='gift'); document.getElementById('topup-qr-sec').classList.toggle('hidden', t!=='qr'); document.getElementById('btn-type-gift').className = t==='gift' ? 'flex-1 py-2.5 rounded-xl text-xs font-bold bg-white/10 text-white transition' : 'flex-1 py-2.5 rounded-xl text-xs font-bold text-white/50 hover:text-white transition'; document.getElementById('btn-type-qr').className = t==='qr' ? 'flex-1 py-2.5 rounded-xl text-xs font-bold bg-white/10 text-white transition' : 'flex-1 py-2.5 rounded-xl text-xs font-bold text-white/50 hover:text-white transition'; }
+function handleTopup() { if(!currentUser) return openModal('auth-modal'); const u=document.getElementById('topup-url').value; if(!u.includes('gift.truemoney.com')) return showToast('ลิงก์ผิด','error'); currentUser.points += (state.topupAmount||500); localStorage.setItem('wow_login_user', JSON.stringify(currentUser)); state.totalTopup += (state.topupAmount||500); saveCloud(); showToast('เติมเงินสำเร็จ'); document.getElementById('topup-url').value=''; changeRoom('home'); }
+function submitReport() { if(!currentUser) return; if(!state.reports) state.reports=[]; state.reports.push({user:currentUser.user, type:document.getElementById('report-type').value, order:document.getElementById('report-order').value, detail:document.getElementById('report-detail').value, date:new Date().toLocaleString()}); saveCloud(); document.getElementById('report-detail').value=''; showToast('ส่งเรื่องแล้ว'); changeRoom('home'); }
 </script>
 </body>
-</html>
+            </html>
