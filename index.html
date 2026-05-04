@@ -6,6 +6,10 @@
     <title>WOWSHOP - Premium ID Store 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&display=swap');
         :root {
@@ -13,51 +17,15 @@
             --surface:rgba(255,255,255,0.03); --border:rgba(255,255,255,0.07);
         }
         .dark-mode { --bg:#0b0e14; }
-        
-        /* ════ แก้บัคธีมสว่าง (Light Mode Fixes) ════ */
         .light-mode { --bg:#f0f2f5; --surface:rgba(0,0,0,0.04); --border:rgba(0,0,0,0.08); }
         body.light { background:#f0f2f5; color:#1a1a2e; }
         body.light .glass { background:rgba(255,255,255,0.9); border-color:rgba(0,0,0,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
-        body.light nav { background:rgba(255,255,255,0.95); }
-        body.light #sidebar { background:rgba(255,255,255,0.95); }
-        
+        body.light nav, body.light #sidebar { background:rgba(255,255,255,0.95); }
         body.light .text-white { color:#1a1a2e; }
-        body.light .text-white\/90 { color:rgba(0,0,0,0.9); }
-        body.light .text-white\/80 { color:rgba(0,0,0,0.8); }
-        body.light .text-white\/70 { color:rgba(0,0,0,0.7); }
-        body.light .text-white\/60 { color:rgba(0,0,0,0.6); }
-        body.light .text-white\/50 { color:rgba(0,0,0,0.5); }
-        body.light .text-white\/40 { color:rgba(0,0,0,0.4); }
-        body.light .text-white\/30 { color:rgba(0,0,0,0.3); }
-        body.light .text-white\/20 { color:rgba(0,0,0,0.2); }
-        
         body.light .text-red-400 { color: #dc2626 !important; }
-        body.light .text-yellow-400 { color: #d97706 !important; }
-        body.light .text-yellow-500 { color: #b45309 !important; }
-        body.light .text-green-400 { color: #16a34a !important; }
-        body.light .text-orange-400 { color: #ea580c !important; }
-        body.light .text-blue-400 { color: #2563eb !important; }
-        body.light .text-gray-500 { color: #6b7280 !important; }
-        
-        body.light .btn-red, body.light .btn-red *, body.light .btn-orange, body.light .btn-orange *, 
-        body.light .btn-green, body.light .btn-green *, body.light .btn-blue, body.light .btn-blue *,
-        body.light .badge-hot, body.light .badge-new, body.light .badge-sale, body.light .badge-sold,
-        body.light .logo-box, body.light .logo-box span, body.light .sold-overlay { color: #ffffff !important; }
-
-        body.light input,body.light textarea,body.light select { background:rgba(0,0,0,0.05)!important; color:#1a1a2e!important; border-color:rgba(0,0,0,0.15)!important; }
-        body.light input::placeholder, body.light textarea::placeholder { color:rgba(0,0,0,0.4)!important; }
-        body.light .bg-white\/3, body.light .bg-white\/4, body.light .bg-white\/5 { background:rgba(0,0,0,0.04); }
-        body.light .bg-white\/10 { background:rgba(0,0,0,0.08); }
-        body.light .bg-black\/40 { background-color:rgba(0,0,0,0.05) !important; border-color:rgba(0,0,0,0.15) !important; }
-        body.light .border-white\/5, body.light .border-white\/8, body.light .border-white\/10, body.light .border-white\/20 { border-color:rgba(0,0,0,0.1) !important; }
-        body.light .modal-bg { background:rgba(255,255,255,0.7); }
-        body.light .acc-hidden { filter: blur(4px); opacity: 0.6; }
-        body.light .acc-hidden:hover { filter: blur(0); opacity: 1; }
-        /* ═════════════════════════════════════════ */
 
         * { box-sizing:border-box; transition: background-color 0.3s, color 0.3s; }
         body { font-family:'Kanit',sans-serif; background:var(--bg); color:#e6edf3; margin:0; overflow-x:hidden; }
-
         .glass { background:var(--surface); backdrop-filter:blur(20px); border:1px solid var(--border); }
         #sidebar { transition:.45s cubic-bezier(.4,0,.2,1); transform:translateX(100%); }
         #sidebar.active { transform:translateX(0); }
@@ -67,7 +35,163 @@
         .modal-bg { display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.92); backdrop-filter:blur(16px); align-items:center; justify-content:center; padding:20px; }
         .modal-bg.active { display:flex; }
         .logo-box { background:linear-gradient(135deg,#ef4444,#991b1b); }
-        .category-btn { transition:all .2s; white-space:nowrap; }
+        .btn-red { background:linear-gradient(135deg,#ef4444,#b91c1c); transition:all .2s; color: white; border: none; cursor: pointer; }
+        .btn-green { background:linear-gradient(135deg,#22c55e,#15803d); transition:all .2s; color: white; border: none; cursor: pointer; }
+        #toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); z-index:9999; padding:14px 28px; border-radius:16px; font-size:14px; font-weight:700; opacity:0; transition:all .35s; pointer-events:none; min-width:240px; text-align:center; }
+        #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+        #toast.success { background:linear-gradient(135deg,#16a34a,#14532d); color:white; }
+        .ticker-wrap { overflow:hidden; background:rgba(239,68,68,.08); border-bottom:1px solid rgba(239,68,68,.15); }
+        .ticker-track { display:inline-flex; animation:ticker 32s linear infinite; white-space:nowrap; }
+        @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    </style>
+</head>
+<body>
+
+<nav class="fixed w-full z-[100] px-4 md:px-6 py-4 glass flex justify-between items-center border-b border-white/5">
+    <div class="flex items-center gap-3 cursor-pointer" onclick="changeRoom('home')">
+        <img src="1000014994.png" class="w-10 h-10 rounded-xl">
+        <div class="flex flex-col">
+            <span class="text-xl md:text-2xl font-black uppercase text-white">WOW<span class="text-red-500">SHOP</span></span>
+        </div>
+    </div>
+    <div class="flex items-center gap-2">
+        <div id="user-points-panel" class="hidden items-center gap-2 bg-white/5 px-3 py-2 rounded-xl">
+            <i class="fas fa-coins text-yellow-500"></i>
+            <span id="points-val" class="font-black text-red-400">0.00</span>
+        </div>
+        <button id="nav-auth-btn" onclick="openModal('auth-modal')" class="btn-red px-3 py-2 rounded-xl text-xs font-bold">เข้าสู่ระบบ</button>
+        <button onclick="toggleSidebar()" class="text-white bg-white/10 px-3 py-2 rounded-xl"><i class="fas fa-bars"></i></button>
+    </div>
+</nav>
+
+<div id="sidebar" class="fixed inset-y-0 right-0 w-72 glass z-[200] p-6 shadow-2xl">
+    <div class="flex justify-between items-center mb-10">
+        <span class="font-black text-red-500 uppercase">Menu</span>
+        <button onclick="toggleSidebar()" class="text-3xl text-gray-500">&times;</button>
+    </div>
+    <nav class="space-y-1 font-bold">
+        <button onclick="changeRoom('home')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl text-white/70 flex items-center gap-4"><i class="fas fa-home"></i> หน้าแรก</button>
+        <button onclick="checkAccess('topup')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl text-white/70 flex items-center gap-4"><i class="fas fa-wallet"></i> เติมเงิน</button>
+        <button onclick="checkAccess('history')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl text-white/70 flex items-center gap-4"><i class="fas fa-history"></i> ประวัติการซื้อ</button>
+        <div id="admin-panel-link" class="hidden"><button onclick="changeRoom('admin')" class="w-full text-left p-4 text-red-500"><i class="fas fa-user-shield"></i> แอดมิน</button></div>
+        <button onclick="doLogout()" class="w-full text-left p-4 text-gray-500"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</button>
+    </nav>
+</div>
+<div id="sidebar-overlay" class="hidden fixed inset-0 z-[190]" onclick="toggleSidebar()"></div>
+
+<div class="pt-[72px]">
+    <div class="ticker-wrap py-2.5 text-red-400 font-bold text-sm">
+        <div class="ticker-track" id="ticker-text"></div>
+    </div>
+</div>
+
+<main id="room-home" class="section-room active max-w-7xl mx-auto p-4 md:p-6">
+    <div id="product-list" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+</main>
+
+<main id="room-admin" class="section-room max-w-6xl mx-auto p-6 pt-10">
+    <h2 class="text-2xl font-black text-red-400 mb-6">ADMIN PANEL</h2>
+    <button onclick="openAddProduct()" class="btn-green px-4 py-2 rounded-xl mb-4">เพิ่มสินค้า</button>
+    <div id="admin-product-list" class="space-y-3"></div>
+</main>
+
+<div id="auth-modal" class="modal-bg">
+    <div class="glass w-full max-w-sm p-8 rounded-[2.5rem] text-center">
+        <h2 class="text-2xl font-black text-red-400 mb-6 uppercase">Login</h2>
+        <input type="text" id="auth-user-in" placeholder="Username" class="w-full p-4 rounded-2xl mb-3">
+        <input type="password" id="auth-pass-in" placeholder="Password" class="w-full p-4 rounded-2xl mb-4">
+        <button onclick="doLogin()" class="btn-red w-full py-4 rounded-2xl">เข้าสู่ระบบ</button>
+    </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// 1. FIREBASE CONFIG (จากรูปภาพที่คุณส่งมา)
+// ══════════════════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyAKCOW7uAJowXhpCUlaW3G",
+  authDomain: "wowshop-498d9.firebaseapp.com",
+  projectId: "wowshop-498d9",
+  storageBucket: "wowshop-498d9.firebasestorage.app",
+  messagingSenderId: "534483125591",
+  appId: "1:534483125591:web:d0171b503",
+  measurementId: "G-DKFBKBX6CR"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function hashStr(s){let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=(h*0x01000193)>>>0;}return h.toString(16);}
+
+let state = {
+    users:[{user:'wow11',pass:hashStr('123123z'),points:999999}],
+    currentUser:null,
+    products:[],
+    tickerLines:['🔥 ยินดีต้อนรับสู่ WOWSHOP'],
+    orders:[]
+};
+
+db.ref('wowshop_v4').on('value', (snapshot) => {
+    const data = snapshot.val();
+    if (data) state = data;
+    updateUI();
+});
+
+function saveState() { db.ref('wowshop_v4').set(state); }
+
+function updateUI() {
+    renderProducts();
+    renderTicker();
+    updateAuthUI();
+}
+
+function renderProducts(){
+    const el = document.getElementById('product-list');
+    el.innerHTML = state.products.map(p => `
+        <div class="glass p-3 rounded-2xl">
+            <img src="${p.img}" class="w-full aspect-square object-cover rounded-xl mb-2">
+            <h4 class="text-xs font-bold text-white">${p.name}</h4>
+            <span class="text-red-400 font-black">${p.price}฿</span>
+        </div>
+    `).join('');
+}
+
+function updateAuthUI(){
+    const u = state.currentUser ? state.users.find(x=>x.user===state.currentUser) : null;
+    document.getElementById('nav-auth-btn').classList.toggle('hidden', !!u);
+    document.getElementById('user-points-panel').classList.toggle('hidden', !u);
+    if(u) {
+        document.getElementById('points-val').textContent = u.points.toFixed(2);
+        document.getElementById('admin-panel-link').classList.toggle('hidden', u.user !== 'wow11');
+    }
+}
+
+function doLogin(){
+    const u=document.getElementById('auth-user-in').value;
+    const p=document.getElementById('auth-pass-in').value;
+    const found=state.users.find(x=>x.user===u&&x.pass===hashStr(p));
+    if(found){ state.currentUser=u; saveState(); closeModal('auth-modal'); showToast('ล็อกอินสำเร็จ'); }
+}
+
+function changeRoom(id){
+    document.querySelectorAll('.section-room').forEach(r=>r.classList.remove('active'));
+    document.getElementById('room-'+id).classList.add('active');
+    if(document.getElementById('sidebar').classList.contains('active')) toggleSidebar();
+}
+
+function openModal(id){document.getElementById(id).classList.add('active');}
+function closeModal(id){document.getElementById(id).classList.remove('active');}
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('active'); }
+function showToast(m){const t=document.getElementById('toast'); t.textContent=m; t.className='show success'; setTimeout(()=>t.className='',3000);}
+function renderTicker(){ document.getElementById('ticker-text').innerHTML = [...state.tickerLines, ...state.tickerLines].map(l=>`<span class="px-12">${l}</span>`).join(''); }
+function checkAccess(r){ if(!state.currentUser) openModal('auth-modal'); else changeRoom(r); }
+function doLogout(){ state.currentUser=null; saveState(); changeRoom('home'); }
+
+</script>
+</body>
+</html>
         .category-btn.active { background:var(--red); color:white; box-shadow:0 0 18px rgba(239,68,68,.45); }
         .category-btn:not(.active):hover { background:rgba(255,255,255,.06); }
         .product-card { transition:all .3s; cursor:pointer; }
