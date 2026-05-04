@@ -12,91 +12,143 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&display=swap');
-        :root { --red:#ef4444; --bg:#0b0e14; --surface:rgba(255,255,255,0.03); --border:rgba(255,255,255,0.07); }
+        :root {
+            --red:#ef4444; --red-dark:#991b1b; --bg:#0b0e14;
+            --surface:rgba(255,255,255,0.03); --border:rgba(255,255,255,0.07);
+        }
+        .dark-mode { --bg:#0b0e14; }
+        
+        /* ════ แก้บัคธีมสว่าง (Light Mode Fixes) ════ */
+        .light-mode { --bg:#f0f2f5; --surface:rgba(0,0,0,0.04); --border:rgba(0,0,0,0.08); }
+        body.light { background:#f0f2f5; color:#1a1a2e; }
+        body.light .glass { background:rgba(255,255,255,0.9); border-color:rgba(0,0,0,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+        body.light nav { background:rgba(255,255,255,0.95); }
+        body.light #sidebar { background:rgba(255,255,255,0.95); }
+        
+        body.light .text-white { color:#1a1a2e; }
+        body.light .text-white\/90 { color:rgba(0,0,0,0.9); }
+        body.light .text-white\/80 { color:rgba(0,0,0,0.8); }
+        body.light .text-white\/70 { color:rgba(0,0,0,0.7); }
+        body.light .text-red-400 { color: #dc2626 !important; }
+        body.light .btn-red, body.light .btn-red *, body.light .badge-hot, body.light .sold-overlay { color: #ffffff !important; }
+
+        input,textarea,select { background:rgba(255,255,255,.05)!important; border:1px solid rgba(255,255,255,.1)!important; color:white!important; outline:none; }
+        body.light input,body.light textarea,body.light select { background:rgba(0,0,0,0.05)!important; color:#1a1a2e!important; border-color:rgba(0,0,0,0.15)!important; }
+
+        * { box-sizing:border-box; transition: background-color 0.3s, color 0.3s; }
         body { font-family:'Kanit',sans-serif; background:var(--bg); color:#e6edf3; margin:0; overflow-x:hidden; }
+
         .glass { background:var(--surface); backdrop-filter:blur(20px); border:1px solid var(--border); }
-        #sidebar { position:fixed; inset-y:0; right:0; width:280px; background:rgba(11,14,20,0.98); z-index:200; transform:translateX(100%); transition:0.3s cubic-bezier(0.4, 0, 0.2, 1); padding:24px; border-left:1px solid var(--border); }
+        #sidebar { transition:.45s cubic-bezier(.4,0,.2,1); transform:translateX(100%); }
         #sidebar.active { transform:translateX(0); }
-        .section-room { display:none; }
-        .section-room.active { display:block; animation:fadeIn .3s; }
+        .section-room { display:none; animation:fadeIn .35s ease-out; }
+        .section-room.active { display:block; }
         @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-        .category-btn { transition:0.2s; white-space:nowrap; }
-        .category-btn.active { background:var(--red); color:white; box-shadow:0 0 15px rgba(239,68,68,0.4); }
-        .product-card { transition:0.3s; cursor:pointer; }
-        .product-card:hover { transform:translateY(-5px); border-color:rgba(239,68,68,0.5); }
-        .sold-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; color:white; font-weight:900; border-radius:1.5rem; z-index:10; }
-        #toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); z-index:9999; padding:14px 28px; border-radius:16px; opacity:0; transition:0.3s; pointer-events:none; }
+        .modal-bg { display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.92); backdrop-filter:blur(16px); align-items:center; justify-content:center; padding:20px; }
+        .modal-bg.active { display:flex; }
+        .category-btn { transition:all .2s; white-space:nowrap; cursor:pointer; }
+        .category-btn.active { background:var(--red); color:white; box-shadow:0 0 18px rgba(239,68,68,.45); }
+        .product-card { transition:all .3s; cursor:pointer; }
+        .product-card:hover { transform:translateY(-4px); }
+        .btn-red { background:linear-gradient(135deg,#ef4444,#b91c1c); transition:all .2s; cursor:pointer; }
+        .btn-green { background:linear-gradient(135deg,#22c55e,#15803d); transition:all .2s; cursor:pointer; }
+        .btn-orange { background:linear-gradient(135deg,#f97316,#c2410c); transition:all .2s; cursor:pointer; }
+
+        #toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); z-index:9999; padding:14px 28px; border-radius:16px; font-size:14px; font-weight:700; opacity:0; transition:all .35s cubic-bezier(.34,1.56,.64,1); pointer-events:none; min-width:240px; text-align:center; }
         #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-        .admin-tab.active { background:rgba(239,68,68,0.1); color:#f87171; border-color:rgba(239,68,68,0.3); }
-        .ticker-track { display:inline-flex; animation:ticker 30s linear infinite; white-space:nowrap; }
+        #toast.success { background:linear-gradient(135deg,#16a34a,#14532d); color:white; }
+        #toast.error { background:linear-gradient(135deg,#dc2626,#7f1d1d); color:white; }
+
+        .ticker-track { display:inline-flex; animation:ticker 32s linear infinite; white-space:nowrap; }
         @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+        .acc-hidden { filter:blur(5px); user-select:none; cursor:pointer; transition:filter .3s; }
+        .acc-hidden:hover { filter:blur(0); }
+        .sold-overlay { position:absolute; inset:0; background:rgba(0,0,0,.6); border-radius:inherit; display:flex; align-items:center; justify-content:center; font-weight:900; color:white; z-index:10; }
+        
+        .slider-wrapper { overflow:hidden; position:relative; border-radius:1.5rem; }
+        .slider-track { display:flex; transition:transform 0.5s ease-in-out; }
+        .slider-slide { flex: 0 0 100%; max-width:100%; object-fit:cover; aspect-ratio:21/9; }
+        .no-scrollbar::-webkit-scrollbar { display:none; }
     </style>
 </head>
 <body>
 
 <nav class="fixed w-full z-[100] px-4 md:px-6 py-4 glass flex justify-between items-center">
     <div class="flex items-center gap-3 cursor-pointer" onclick="changeRoom('home')">
-        <img src="1000014994.png" class="w-10 h-10 rounded-xl shadow-lg shadow-red-600/20" onerror="this.src='https://placehold.co/40x40/ef4444/white?text=W'">
+        <img id="nav-logo" src="1000014994.png" class="w-10 h-10 md:w-11 md:h-11 rounded-xl shadow-lg shadow-red-600/30" onerror="this.src='https://placehold.co/100/ef4444/white?text=W'">
         <div class="flex flex-col leading-tight">
             <span class="text-xl md:text-2xl font-black text-white uppercase">WOW<span class="text-red-500">SHOP</span></span>
-            <span class="text-[9px] text-gray-500 font-bold tracking-widest uppercase italic">Premium Store</span>
+            <span class="text-[8px] text-gray-500 font-bold tracking-widest uppercase italic">Premium Store</span>
         </div>
     </div>
+    
     <div class="flex items-center gap-2">
-        <div id="ui-points-panel" class="hidden glass px-3 py-2 rounded-xl text-red-400 font-bold items-center gap-1">
-            <i class="fas fa-coins text-yellow-500 text-xs"></i> <span id="ui-points-val">0.00</span> ฿
+        <div id="user-points-panel" class="hidden items-center gap-2 bg-white/5 border border-white/10 px-3 py-2 rounded-xl">
+            <i class="fas fa-coins text-yellow-500 text-xs"></i>
+            <span id="points-val" class="font-black text-red-400 text-sm">0.00</span>
         </div>
-        <button id="ui-login-btn" onclick="openModal('auth-modal')" class="bg-red-500 text-white px-4 py-2 rounded-xl text-xs font-bold uppercase shadow-lg">เข้าสู่ระบบ</button>
-        <button onclick="toggleSidebar()" class="text-white bg-white/10 px-3 py-2 rounded-xl hover:bg-white/20 transition"><i class="fas fa-bars"></i></button>
+        <button id="nav-auth-btn" onclick="openModal('auth-modal')" class="btn-red px-4 py-2 rounded-xl font-bold text-xs shadow-lg">เข้าสู่ระบบ</button>
+        <button onclick="toggleSidebar()" class="text-white bg-white/10 px-3 py-2 rounded-xl"><i class="fas fa-bars"></i></button>
     </div>
 </nav>
 
-<div id="sidebar">
-    <div class="flex justify-between items-center mb-10 text-red-500 font-black">MENU <button onclick="toggleSidebar()" class="text-3xl text-gray-500">&times;</button></div>
-    <nav class="space-y-1">
-        <button onclick="changeRoom('home')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-home text-red-500"></i> หน้าแรก</button>
-        <button onclick="checkAccess('topup')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-wallet text-orange-500"></i> เติมเงิน</button>
-        <button onclick="checkAccess('history')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-history text-blue-400"></i> ประวัติการซื้อ</button>
-        
-        <div id="ui-admin-link" class="hidden border-t border-white/10 mt-4 pt-4">
-            <button onclick="changeRoom('admin')" class="w-full text-left p-4 bg-red-600/10 text-red-500 rounded-2xl flex items-center gap-4 font-black"><i class="fas fa-user-shield"></i> แผงแอดมิน</button>
+<div id="sidebar" class="fixed inset-y-0 right-0 w-72 glass z-[200] p-6 shadow-2xl">
+    <div class="flex justify-between items-center mb-10"><span class="font-black text-red-500 uppercase tracking-widest text-sm">Menu</span><button onclick="toggleSidebar()" class="text-3xl text-gray-500">&times;</button></div>
+    <nav class="space-y-1 font-bold text-sm">
+        <button onclick="changeRoom('home')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-home text-red-500 w-4"></i> หน้าแรก</button>
+        <button onclick="checkAccess('topup')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-wallet text-orange-500 w-4"></i> เติมเงิน</button>
+        <button onclick="checkAccess('history')" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-white/70"><i class="fas fa-history text-blue-400 w-4"></i> ประวัติการซื้อ</button>
+        <button onclick="toggleDarkMode()" class="w-full text-left p-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 text-gray-400"><i class="fas fa-moon w-4"></i> สลับโหมดสี</button>
+        <div id="admin-panel-link" class="hidden pt-4 mt-4 border-t border-red-500/20">
+            <button onclick="changeRoom('admin')" class="w-full text-left p-4 bg-red-600/10 text-red-500 rounded-2xl flex items-center gap-4 font-black"><i class="fas fa-user-shield w-4"></i> แผงแอดมิน</button>
         </div>
-        
-        <button id="ui-logout-btn" onclick="doLogout()" class="hidden w-full text-left p-4 text-gray-500 flex items-center gap-4 mt-2"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</button>
+        <button id="logout-btn-area" onclick="doLogout()" class="hidden w-full text-left p-4 text-gray-500 flex items-center gap-4 mt-4 pt-4 border-t border-white/10"><i class="fas fa-sign-out-alt w-4"></i> ออกจากระบบ</button>
     </nav>
 </div>
-<div id="sidebar-overlay" class="hidden fixed inset-0 z-[190] bg-black/60 backdrop-blur-sm" onclick="toggleSidebar()"></div>
+<div id="sidebar-overlay" class="hidden fixed inset-0 z-[190] bg-black/60" onclick="toggleSidebar()"></div>
 
-<div class="pt-20">
-    <div class="ticker-wrap overflow-hidden py-2.5 bg-red-500/5 text-red-400 text-xs font-bold border-b border-white/5">
+<div class="pt-[72px]">
+    <div class="ticker-wrap py-2.5 text-red-400 font-bold text-sm bg-red-500/5 border-b border-white/5 overflow-hidden">
         <div class="ticker-track" id="ticker-text"></div>
     </div>
 </div>
 
 <main id="room-home" class="section-room active max-w-7xl mx-auto p-4 md:p-6 pb-20">
-    <div class="flex gap-2 mb-6 overflow-x-auto pb-2 no-scrollbar" id="cat-bar">
-        <button onclick="filterCat('all')" class="category-btn active px-6 py-2.5 rounded-xl text-xs font-bold glass">ทั้งหมด</button>
-        <button onclick="filterCat('freefire')" class="category-btn px-6 py-2.5 rounded-xl text-xs font-bold glass">Free Fire</button>
-        <button onclick="filterCat('rov')" class="category-btn px-6 py-2.5 rounded-xl text-xs font-bold glass">ROV</button>
+    <div class="slider-wrapper mb-8 shadow-2xl bg-white/5 hidden" id="main-slider">
+        <div class="slider-track" id="slider-track"></div>
     </div>
-    <div id="product-list" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"></div>
+    <div class="flex gap-2 mb-6 overflow-x-auto pb-2 no-scrollbar" id="cat-filter-bar"></div>
+    <div id="product-list" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
 </main>
 
 <main id="room-admin" class="section-room max-w-6xl mx-auto p-4 md:p-6 pt-10 pb-20">
+    <div class="flex items-center gap-4 mb-8">
+        <div class="w-12 h-12 bg-red-500/15 rounded-2xl flex items-center justify-center"><i class="fas fa-user-shield text-red-400 text-xl"></i></div>
+        <h2 class="text-2xl font-black text-red-400 uppercase italic">Admin Panel</h2>
+    </div>
+    
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <div class="glass p-4 rounded-2xl"><p class="text-[10px] text-white/40 uppercase mb-1">สินค้าทั้งหมด</p><p id="stat-p" class="text-xl font-black text-red-500">0</p></div>
-        <div class="glass p-4 rounded-2xl"><p class="text-[10px] text-white/40 uppercase mb-1">ออเดอร์รวม</p><p id="stat-o" class="text-xl font-black text-blue-400">0</p></div>
+        <div class="glass p-4 rounded-2xl"><p class="text-[10px] text-white/40 uppercase mb-1">รายได้รวม</p><p id="stat-revenue" class="text-xl font-black text-green-400">0฿</p></div>
+        <div class="glass p-4 rounded-2xl"><p class="text-[10px] text-white/40 uppercase mb-1">ออเดอร์</p><p id="stat-orders" class="text-xl font-black text-blue-400">0</p></div>
+        <div class="glass p-4 rounded-2xl"><p class="text-[10px] text-white/40 uppercase mb-1">สินค้า</p><p id="stat-products" class="text-xl font-black text-yellow-400">0</p></div>
+        <div class="glass p-4 rounded-2xl"><p class="text-[10px] text-white/40 uppercase mb-1">สมาชิก</p><p id="stat-users" class="text-xl font-black text-orange-400">0</p></div>
     </div>
 
-    <div class="glass p-6 rounded-[2rem] mb-10 border-red-500/20">
-        <h3 class="font-black mb-6 text-red-500 uppercase italic"><i class="fas fa-plus-circle mr-2"></i>เพิ่มสินค้าใหม่</h3>
-        <div class="grid md:grid-cols-2 gap-4 mb-4">
-            <input type="text" id="pm-name" placeholder="ชื่อสินค้า" class="w-full p-4 rounded-2xl bg-white/5 border border-white/10 text-white">
-            <input type="number" id="pm-price" placeholder="ราคา (฿)" class="w-full p-4 rounded-2xl bg-white/5 border border-white/10 text-white">
+    <div class="glass p-6 rounded-3xl mb-8 border-red-500/20">
+        <h3 class="font-bold mb-4 text-white uppercase italic">ลงสินค้าใหม่</h3>
+        <input type="text" id="pm-name" placeholder="ชื่อสินค้า" class="w-full p-4 rounded-xl mb-3">
+        <div class="grid grid-cols-2 gap-3 mb-3">
+            <input type="number" id="pm-price" placeholder="ราคา (฿)" class="p-4 rounded-xl">
+            <select id="pm-category" class="p-4 rounded-xl text-black">
+                <option value="freefire">Free Fire</option>
+                <option value="rov">ROV</option>
+                <option value="roblox">Roblox</option>
+            </select>
         </div>
-        <input type="text" id="pm-img" placeholder="ลิงก์รูปภาพสินค้า" class="w-full p-4 rounded-2xl bg-white/5 border border-white/10 text-white mb-4">
-        <textarea id="pm-acc" placeholder="รหัสไอดี (1 บรรทัด = 1 ไอดี)" class="w-full p-4 rounded-2xl bg-white/5 border border-white/10 text-white h-32 mb-6 font-mono"></textarea>
-        <button onclick="saveProduct()" class="w-full py-4 bg-green-500 text-white rounded-2xl font-black uppercase shadow-lg shadow-green-900/20 hover:brightness-110 transition">บันทึกข้อมูลสินค้า</button>
+        <input type="text" id="pm-img" placeholder="ลิงก์รูปภาพ" class="w-full p-4 rounded-xl mb-3">
+        <textarea id="pm-acc" placeholder="ไอดีที่ขาย (1 บรรทัด = 1 ไอดี)" class="w-full p-4 rounded-xl mb-4 h-24 font-mono"></textarea>
+        <button onclick="saveProduct()" class="btn-green w-full py-4 rounded-xl font-black uppercase shadow-lg">บันทึกข้อมูลสินค้า</button>
     </div>
     <div id="admin-product-list" class="space-y-3"></div>
 </main>
@@ -107,21 +159,22 @@
 </main>
 
 <main id="room-topup" class="section-room max-w-lg mx-auto p-6 pt-10 text-center">
-    <div class="glass p-10 rounded-[3rem] border-orange-500/20">
-        <div class="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6"><i class="fas fa-wallet text-orange-500 text-2xl"></i></div>
-        <h2 class="text-2xl font-black mb-6 uppercase italic text-white">เติมเงินอั่งเปา</h2>
-        <input type="text" id="topup-url" placeholder="https://gift.truemoney.com/..." class="w-full p-4 rounded-2xl mb-6 text-center bg-white/5 border border-white/10 text-white">
-        <button onclick="handleTopup()" class="w-full py-4 bg-gradient-to-r from-red-600 to-red-800 text-white rounded-2xl font-black uppercase shadow-xl">ยืนยันการเติมเงิน</button>
+    <div class="glass p-10 rounded-[3rem] border-orange-500/10">
+        <div class="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6"><i class="fas fa-wallet text-orange-400 text-2xl"></i></div>
+        <h2 class="text-2xl font-black mb-6 uppercase italic">Topup Money</h2>
+        <input type="text" id="topup-url" placeholder="วางลิงก์อั่งเปาที่นี่..." class="w-full p-4 rounded-2xl mb-6 text-center">
+        <button onclick="handleTopup()" class="btn-red w-full py-4 rounded-2xl font-black uppercase shadow-xl">ตรวจสอบและเติมเงิน</button>
     </div>
 </main>
 
 <div id="auth-modal" class="modal-bg">
-    <div class="glass w-full max-w-sm p-10 rounded-[3rem] text-center relative">
+    <div class="glass w-full max-w-sm p-10 rounded-[3rem] text-center relative border-white/10">
         <button onclick="closeModal('auth-modal')" class="absolute top-6 right-8 text-2xl text-gray-500 hover:text-white">&times;</button>
-        <h2 class="text-3xl font-black text-red-500 mb-8 uppercase italic">Login</h2>
-        <input type="text" id="auth-u" placeholder="ชื่อผู้ใช้งาน" class="w-full p-4 rounded-2xl mb-3 text-center bg-white/5 border border-white/10 text-white">
-        <input type="password" id="auth-p" placeholder="รหัสผ่าน" class="w-full p-4 rounded-2xl mb-6 text-center bg-white/5 border border-white/10 text-white">
-        <button onclick="doLogin()" class="w-full py-4 bg-red-500 text-white rounded-2xl font-black uppercase shadow-lg">เข้าสู่ระบบ</button>
+        <div class="w-14 h-14 bg-red-500/10 rounded-2xl flex items-center justify-center mx-auto mb-8"><i class="fas fa-lock text-red-500 text-xl"></i></div>
+        <h2 class="text-3xl font-black text-red-400 mb-8 uppercase italic">Login</h2>
+        <input type="text" id="auth-user" placeholder="Username" class="w-full p-4 rounded-2xl mb-3 text-center">
+        <input type="password" id="auth-pass" placeholder="Password" class="w-full p-4 rounded-2xl mb-6 text-center">
+        <button onclick="doLogin()" class="btn-red w-full py-4 rounded-2xl font-black uppercase shadow-lg">เข้าสู่ระบบ</button>
     </div>
 </div>
 
@@ -131,14 +184,14 @@
         <img id="det-img" src="" class="w-full aspect-square object-cover rounded-[2rem] mb-6 shadow-2xl">
         <h2 id="det-name" class="text-2xl font-black mb-2 uppercase text-white"></h2>
         <div id="det-price" class="text-4xl font-black text-red-500 mb-8"></div>
-        <button id="buy-confirm-btn" class="w-full py-5 bg-red-500 text-white rounded-2xl font-black uppercase shadow-xl hover:scale-[1.02] transition">ชำระเงินทันที</button>
+        <button id="buy-btn" class="btn-red w-full py-4 rounded-2xl font-black uppercase shadow-xl">ยืนยันการสั่งซื้อ</button>
     </div>
 </div>
 
-<div id="toast" class="bg-red-500 text-white font-bold text-sm shadow-2xl"></div>
+<div id="toast"></div>
 
 <script>
-// 1. CONFIG (Firebase ของแอดมินเป๊ะๆ)
+// 1. FIREBASE CONFIG (ใช้ของคุณเป๊ะๆ)
 const firebaseConfig = {
   apiKey: "AIzaSyAKCOW7uAJowXhpCUlaW3G",
   authDomain: "wowshop-498d9.firebaseapp.com",
@@ -151,160 +204,167 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// 2. STATE
-let store = { products: [], orders: [] };
-let user = JSON.parse(localStorage.getItem('wow_user')) || null;
-let currentCategory = 'all';
+// 2. STATE & DATA (รวมร่าง)
+let state = {
+    users:[{user:'wow11',pass:hashStr('123123z'),points:999999}],
+    products:[],
+    orders:[],
+    banners: ['https://placehold.co/1200x400/1a1a1a/ef4444?text=WOWSHOP+WELCOME'],
+    tickerLines:['🔥 ยินดีต้อนรับสู่ WOWSHOP ระบบอัตโนมัติ 24 ชม.'],
+    darkMode:true
+};
+let currentUser = JSON.parse(localStorage.getItem('wow_user')) || null;
+let currentCat = 'all';
 
-// 3. SYNC REALTIME
-db.ref('wowshop_v8_final').on('value', snap => {
+// 3. CORE SYNC (ออนไลน์ถาวร)
+db.ref('wowshop_v10_final').on('value', snap => {
     const data = snap.val();
-    if(data) { store = data; }
-    renderAll();
+    if(data) {
+        state = data;
+        renderAll();
+    } else {
+        saveCloud(); // เซฟครั้งแรกถ้าว่าง
+    }
 });
-function sync() { db.ref('wowshop_v8_final').set(store); }
+function saveCloud() { db.ref('wowshop_v10_final').set(state); }
 
-// 4. CORE UI FUNCTIONS
+// 4. RENDERING FUNCTIONS (UI/UX เดิมเป๊ะ)
 function renderAll() {
     renderProducts();
     updateAuthUI();
     renderHistory();
-    document.getElementById('stat-p').textContent = (store.products || []).length;
-    document.getElementById('stat-o').textContent = (store.orders || []).length;
-    document.getElementById('ticker-text').innerHTML = `<span class="px-10">💎 WOWSHOP บริการขายไอดีเกม 24 ชม. ปลอดภัย มั่นใจได้ 100%</span>`.repeat(10);
+    renderTicker();
+    renderBanners();
+    renderCatFilter();
+    document.getElementById('stat-revenue').textContent = (state.orders || []).reduce((a,b)=>a+(b.price||0), 0).toFixed(2) + '฿';
+    document.getElementById('stat-orders').textContent = (state.orders || []).length;
+    document.getElementById('stat-products').textContent = (state.products || []).length;
+    document.getElementById('stat-users').textContent = (state.users || []).length;
 }
 
 function renderProducts() {
     const list = document.getElementById('product-list');
-    let items = store.products || [];
-    if(currentCategory !== 'all') items = items.filter(p => p.cat === currentCategory);
-    
+    let items = state.products || [];
+    if(currentCat !== 'all') items = items.filter(p => p.category === currentCat);
     list.innerHTML = items.map(p => `
-        <div class="product-card glass p-3 rounded-[2.5rem] relative" onclick="openDetail('${p.id}')">
-            ${p.stock <= 0 ? '<div class="sold-overlay">SOLD OUT</div>' : ''}
+        <div class="product-card glass p-3 rounded-[2.5rem] relative" onclick="openDetail(${p.id})">
+            ${p.stock <= 0 ? '<div class="sold-overlay">หมดแล้ว</div>' : ''}
             <img src="${p.img}" class="w-full aspect-square object-cover rounded-[2rem] mb-4 shadow-lg">
-            <h4 class="text-[13px] font-bold truncate text-white px-2 mb-1">${p.name}</h4>
-            <div class="flex justify-between items-center px-2">
-                <span class="text-sm font-black text-red-500">${p.price}฿</span>
-                <span class="text-[9px] text-white/20 uppercase font-black tracking-widest">${p.cat || 'Game'}</span>
-            </div>
+            <h4 class="text-xs font-bold truncate text-white px-2 mb-1">${p.name}</h4>
+            <span class="text-sm font-black text-red-500 px-2">${p.price}฿</span>
         </div>`).join('');
 
     const adm = document.getElementById('admin-product-list');
-    adm.innerHTML = (store.products || []).map(p => `
-        <div class="glass p-5 rounded-2xl flex justify-between items-center border-white/5">
-            <div><span class="text-white font-bold">${p.name}</span> <span class="text-xs text-white/30 ml-2">(คลัง: ${p.stock})</span></div>
-            <button onclick="delProduct('${p.id}')" class="text-red-500 bg-red-500/10 w-10 h-10 rounded-xl hover:bg-red-500 hover:text-white transition"><i class="fas fa-trash"></i></button>
+    adm.innerHTML = (state.products || []).map(p => `
+        <div class="glass p-4 rounded-xl flex justify-between items-center border-white/5">
+            <span class="text-white text-sm font-bold">${p.name} (คลัง: ${p.stock})</span>
+            <button onclick="deleteProduct(${p.id})" class="text-red-500 bg-red-500/10 w-9 h-9 rounded-xl hover:bg-red-500 hover:text-white transition"><i class="fas fa-trash"></i></button>
         </div>`).join('');
 }
 
 function openDetail(id) {
-    const p = store.products.find(x => x.id == id);
+    const p = state.products.find(x => x.id == id);
     if(!p || p.stock <= 0) return;
     document.getElementById('det-img').src = p.img;
     document.getElementById('det-name').textContent = p.name;
     document.getElementById('det-price').textContent = p.price + " ฿";
-    document.getElementById('buy-confirm-btn').onclick = () => confirmBuy(p);
+    document.getElementById('buy-btn').onclick = () => doPurchase(p);
     openModal('detail-modal');
 }
 
 // 5. ACTION FUNCTIONS
 function doLogin() {
-    const u = document.getElementById('auth-u').value;
-    const p = document.getElementById('auth-p').value;
-    if(!u || !p) return msg('กรุณากรอกข้อมูล');
-    user = { name: u, points: (u === 'wow11' && p === '123123z') ? 999999 : 0, isAdmin: (u === 'wow11' && p === '123123z') };
-    localStorage.setItem('wow_user', JSON.stringify(user));
-    renderAll();
+    const u = document.getElementById('auth-user').value;
+    const p = document.getElementById('auth-pass').value;
+    if(!u || !p) return showToast('กรุณากรอกข้อมูล', 'error');
+    
+    currentUser = { name: u, points: (u === 'wow11' && p === '123123z') ? 999999 : 0, isAdmin: (u === 'wow11' && p === '123123z') };
+    localStorage.setItem('wow_user', JSON.stringify(currentUser));
+    updateAuthUI();
     closeModal('auth-modal');
-    msg('สำเร็จ!', 'bg-green-500');
+    showToast('เข้าสู่ระบบสำเร็จ');
 }
 
-function doLogout() { localStorage.removeItem('wow_user'); user = null; renderAll(); changeRoom('home'); msg('ออกจากระบบ'); }
+function doLogout() { localStorage.removeItem('wow_user'); currentUser = null; updateAuthUI(); changeRoom('home'); showToast('ออกจากระบบแล้ว', 'error'); }
 
 function updateAuthUI() {
-    const loginBtn = document.getElementById('ui-login-btn');
-    const pointsPanel = document.getElementById('ui-points-panel');
-    const adminLink = document.getElementById('ui-admin-link');
-    const logoutBtn = document.getElementById('ui-logout-btn');
-
-    if(user) {
-        loginBtn.style.display = 'none';
-        pointsPanel.style.display = 'flex';
-        document.getElementById('ui-points-val').textContent = user.points.toFixed(2);
-        logoutBtn.style.display = 'block';
-        adminLink.style.display = user.isAdmin ? 'block' : 'none';
-    } else {
-        loginBtn.style.display = 'block';
-        pointsPanel.style.display = 'none';
-        adminLink.style.display = 'none';
-        logoutBtn.style.display = 'none';
+    const u = currentUser;
+    document.getElementById('nav-auth-btn').style.display = u ? 'none' : 'block';
+    document.getElementById('user-points-panel').style.display = u ? 'flex' : 'none';
+    document.getElementById('logout-btn-area').style.display = u ? 'block' : 'none';
+    if(u) {
+        document.getElementById('points-val').textContent = u.points.toFixed(2);
+        document.getElementById('admin-panel-link').style.display = u.isAdmin ? 'block' : 'none';
     }
 }
 
 function saveProduct() {
-    const name = document.getElementById('pm-name').value;
-    const price = parseInt(document.getElementById('pm-price').value);
-    const img = document.getElementById('pm-img').value;
+    const name = document.getElementById('pm-name').value, price = parseInt(document.getElementById('pm-price').value), img = document.getElementById('pm-img').value, cat = document.getElementById('pm-category').value;
     const accs = document.getElementById('pm-acc').value.split('\n').filter(x => x.trim() !== '');
-    if(!name || !price || accs.length === 0) return msg('กรอกไม่ครบ');
-    if(!store.products) store.products = [];
-    store.products.push({ id: Date.now(), name, price, img, accounts: accs, stock: accs.length, cat: 'Game' });
-    sync();
-    msg('ลงสินค้าแล้ว', 'bg-green-500');
-    document.getElementById('pm-name').value = ''; document.getElementById('pm-price').value = ''; document.getElementById('pm-img').value = ''; document.getElementById('pm-acc').value = '';
+    if(!name || !price || accs.length === 0) return showToast('กรอกไม่ครบ', 'error');
+    if(!state.products) state.products = [];
+    state.products.push({ id: Date.now(), name, price, img, category: cat, accounts: accs.map(a=>btoa(a)), stock: accs.length });
+    saveCloud();
+    showToast('เพิ่มสินค้าสำเร็จ');
+    ['pm-name','pm-price','pm-img','pm-acc'].forEach(id=>document.getElementById(id).value='');
 }
 
-function delProduct(id) { if(confirm('ลบ?')) { store.products = store.products.filter(x => x.id != id); sync(); } }
-
-function confirmBuy(p) {
-    if(!user) return openModal('auth-modal');
-    if(user.points < p.price) return msg('เงินไม่พอ');
-    const item = p.accounts.shift();
+function doPurchase(p) {
+    if(!currentUser) return openModal('auth-modal');
+    if(currentUser.points < p.price) return showToast('เงินไม่พอ', 'error');
+    const item = atob(p.accounts.shift());
     p.stock = p.accounts.length;
-    user.points -= p.price;
-    localStorage.setItem('wow_user', JSON.stringify(user));
-    if(!store.orders) store.orders = [];
-    store.orders.push({ buyer: user.name, name: p.name, data: item, date: new Date().toLocaleString() });
-    sync(); renderAll(); closeModal('detail-modal'); changeRoom('history'); msg('ซื้อสำเร็จ!', 'bg-green-500');
-}
-
-function renderHistory() {
-    if(!user) return;
-    const mine = (store.orders || []).filter(x => x.buyer === user.name);
-    const el = document.getElementById('history-content');
-    if(mine.length === 0) el.innerHTML = '<div class="text-center text-white/10 py-20 italic">ไม่มีประวัติ</div>';
-    else el.innerHTML = mine.reverse().map(h => `<div class="glass p-5 rounded-3xl border-l-4 border-red-500"><div class="text-white font-bold">${h.name}</div><div class="text-[10px] text-white/20 mb-3">${h.date}</div><div class="bg-black/50 p-3 rounded-xl font-mono text-xs text-green-400 border border-white/5 break-all">${h.data}</div></div>`).join('');
+    currentUser.points -= p.price;
+    localStorage.setItem('wow_user', JSON.stringify(currentUser));
+    if(!state.orders) state.orders = [];
+    state.orders.push({ buyer: currentUser.name, name: p.name, data: item, date: new Date().toLocaleString(), price: p.price });
+    saveCloud();
+    renderAll();
+    closeModal('detail-modal');
+    showToast('ซื้อสำเร็จ! ดูรหัสที่ประวัติ');
+    changeRoom('history');
 }
 
 function handleTopup() {
-    if(!user) return openModal('auth-modal');
-    if(!document.getElementById('topup-url').value.includes('gift.truemoney.com')) return msg('ลิงก์ผิด');
-    user.points += 500;
-    localStorage.setItem('wow_user', JSON.stringify(user));
-    renderAll(); msg('เติมแล้ว +500', 'bg-green-500');
-    document.getElementById('topup-url').value = ''; changeRoom('home');
+    if(!currentUser) return openModal('auth-modal');
+    const url = document.getElementById('topup-url').value;
+    if(!url.includes('gift.truemoney.com')) return showToast('ลิงก์ผิด', 'error');
+    currentUser.points += 500;
+    localStorage.setItem('wow_user', JSON.stringify(currentUser));
+    updateAuthUI();
+    showToast('เติมเงินสำเร็จ +500฿');
+    document.getElementById('topup-url').value = '';
+    changeRoom('home');
 }
 
-// 6. HELPERS
+// 6. HELPERS & UI
+function renderHistory() {
+    if(!currentUser) return;
+    const mine = (state.orders || []).filter(x => x.buyer === currentUser.name);
+    document.getElementById('history-content').innerHTML = mine.reverse().map(h => `
+        <div class="glass p-5 rounded-3xl border-l-4 border-red-500">
+            <div class="text-white font-bold">${h.name}</div>
+            <div class="text-white/30 text-[10px] mb-2">${h.date}</div>
+            <div class="bg-black/50 p-3 rounded-xl font-mono text-green-400 text-xs border border-white/5 break-all">${h.data}</div>
+        </div>`).join('');
+}
+function renderCatFilter() {
+    const bar = document.getElementById('cat-filter-bar');
+    const cats = ['all', 'freefire', 'rov', 'roblox'];
+    bar.innerHTML = cats.map(c => `<button onclick="currentCat='${c}';renderProducts();" class="category-btn glass px-6 py-2.5 rounded-xl text-xs font-bold ${currentCat===c?'active':''}">${c==='all'?'ทั้งหมด':c.toUpperCase()}</button>`).join('');
+}
+function renderBanners() { document.getElementById('main-slider').classList.remove('hidden'); document.getElementById('slider-track').innerHTML = state.banners.map(b=>`<img src="${b}" class="slider-slide bg-white/5">`).join(''); }
+function renderTicker() { document.getElementById('ticker-text').innerHTML = state.tickerLines.map(l=>`<span class="px-12">${l}</span>`).join('').repeat(2); }
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('sidebar-overlay').classList.toggle('hidden'); }
 function openModal(id) { document.getElementById(id).classList.add('active'); }
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-function changeRoom(id) {
-    document.querySelectorAll('.section-room').forEach(r => r.classList.remove('active'));
-    document.getElementById('room-'+id).classList.add('active');
-    document.getElementById('sidebar').classList.remove('active');
-    document.getElementById('sidebar-overlay').classList.add('hidden');
-    window.scrollTo(0,0);
-}
-function filterCat(c) {
-    currentCategory = c;
-    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-    renderProducts();
-}
-function checkAccess(room) { if(!user) openModal('auth-modal'); else changeRoom(room); }
-function msg(m, cls='bg-red-500') { const t=document.getElementById('toast'); t.textContent=m; t.className=cls+' show px-6 py-3 rounded-2xl fixed'; setTimeout(()=>t.className='', 3000); }
+function changeRoom(id) { document.querySelectorAll('.section-room').forEach(r => r.classList.remove('active')); document.getElementById('room-'+id).classList.add('active'); if(id!=='sidebar') toggleSidebar(); }
+function checkAccess(room) { if(!currentUser) openModal('auth-modal'); else changeRoom(room); }
+function showToast(m, type='success') { const t = document.getElementById('toast'); t.textContent = m; t.className = `${type} show`; setTimeout(() => t.className = '', 3000); }
+function hashStr(s){return s;} // สำหรับเวอร์ชันง่ายไม่ต้องแก้รหัส
+function toggleDarkMode() { document.body.classList.toggle('light'); state.darkMode = !document.body.classList.contains('light'); saveCloud(); }
+function deleteProduct(id) { state.products = state.products.filter(x => x.id != id); saveCloud(); }
+function applyTheme() { document.body.classList.toggle('light', !state.darkMode); }
 
 renderAll();
 </script>
